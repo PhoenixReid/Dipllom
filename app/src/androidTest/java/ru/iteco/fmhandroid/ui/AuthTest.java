@@ -6,9 +6,11 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -42,41 +44,213 @@ public class AuthTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Test
+    public void authUnLoginTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(
+                allOf(
+                        withHint("Логин"),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))
+                )
+        ).perform(replaceText("login1"));
+
+        onView(
+                allOf(
+                        withHint("Пароль"),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))
+                )
+        ).perform(replaceText("password2"));
+
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
+
+
+        onView(withText("Авторизация")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void authUnPasswordTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(
+                allOf(
+                        withHint("Логин"),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))
+                )
+        ).perform(replaceText("login2"));
+
+        onView(
+                allOf(
+                        withHint("Пароль"),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))
+                )
+        ).perform(replaceText("password1"));
+
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
+
+
+        onView(withText("Авторизация")).check(matches(isDisplayed()));
+
+    }
+
+    @Test
+    public void authNullLoginTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(
+                allOf(
+                        withHint("Пароль"),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))
+                )
+        ).perform(replaceText("password2"));
+
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
+
+        onView(withText("Авторизация")).check(matches(isDisplayed()));
+
+    }
+
+    @Test
+    public void authNullPasswordTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(
+                allOf(
+                        withHint("Логин"),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))
+                )
+        ).perform(replaceText("login2"));
+
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
+
+        onView(withText("Авторизация")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void authSpaceLoginTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(
+                allOf(
+                        withHint("Логин"),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))
+                )
+        ).perform(replaceText("     "));
+
+        onView(
+                allOf(
+                        withHint("Пароль"),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))
+                )
+        ).perform(replaceText("password2"));
+
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
+
+        onView(withText("Авторизация")).check(matches(isDisplayed()));
+
+    }
+
+    @Test
+    public void authSpacePasswordTest() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(
+                allOf(
+                        withHint("Логин"),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))
+                )
+        ).perform(replaceText("login2"));
+
+        onView(
+                allOf(
+                        withHint("Пароль"),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))
+                )
+        ).perform(replaceText("   "));
+
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
+
+        onView(withText("Авторизация")).check(matches(isDisplayed()));
+
+    }
+
+    @Test
     public void authTest() {
-        ViewInteraction textInputEditText = onView(
-                allOf(childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.login_text_input_layout),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText.perform(replaceText("login2"), closeSoftKeyboard());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        ViewInteraction textInputEditText2 = onView(
-                allOf(childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.password_text_input_layout),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText2.perform(replaceText("password2"), closeSoftKeyboard());
+        onView(
+                allOf(
+                        withHint("Логин"),
+                        isDescendantOfA(withId(R.id.login_text_input_layout))
+                )
+        ).perform(replaceText("login2"));
 
+        onView(
+                allOf(
+                        withHint("Пароль"),
+                        isDescendantOfA(withId(R.id.password_text_input_layout))
+                )
+        ).perform(replaceText("password2"));
 
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.enter_button), withText("Войти"), withContentDescription("Сохранить"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
-                                2),
-                        isDisplayed()));
-        materialButton.perform(click());
+        // Нажимаем "Войти"
+        onView(withId(R.id.enter_button))
+                .perform(click());
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withText("Новости")).check(matches(isDisplayed()));
         ViewInteraction textView = onView(
                 allOf(withText("Новости"),
                         withParent(withParent(withId(R.id.container_list_news_include_on_fragment_main))),
                         isDisplayed()));
         textView.check(matches(withText("Новости")));
+
+        onView(withId(R.id.authorization_image_button))
+                .perform(click());
+        onView(withText("Выйти")).perform(click());
+
     }
 
     private static Matcher<View> childAtPosition(
