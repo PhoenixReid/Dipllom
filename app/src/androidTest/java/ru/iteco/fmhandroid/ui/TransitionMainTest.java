@@ -23,9 +23,9 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 import androidx.test.uiautomator.UiDevice;
 
 import org.hamcrest.Description;
@@ -38,6 +38,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import androidx.test.uiautomator.UiDevice;
+
+
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
