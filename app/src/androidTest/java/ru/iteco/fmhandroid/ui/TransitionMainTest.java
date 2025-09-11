@@ -37,6 +37,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import androidx.test.uiautomator.UiDevice;
 
 
@@ -49,22 +50,8 @@ public class TransitionMainTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
-    @Before
-    public  void login() {
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-   }
-
-
     @Test
     public void quoteTest() {
-
-
         onView(withId(R.id.our_mission_image_button))
                 .perform(click());
 
@@ -74,13 +61,11 @@ public class TransitionMainTest {
 
     @Test
     public void newsTest() {
-
-
         onView(withId(R.id.main_menu_image_button))
                 .perform(click());
         onView(withText("Новости")).perform(click());
 
-        onView(withText("Массаж")).check(matches(isDisplayed()));
+        onView(withText("Праздник")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -88,7 +73,7 @@ public class TransitionMainTest {
 
         onView(withText("ВСЕ НОВОСТИ")).perform(click());
 
-        onView(withText("Массаж")).check(matches(isDisplayed()));
+        onView(withText("Праздник")).check(matches(isDisplayed()));
     }
 
     @Test

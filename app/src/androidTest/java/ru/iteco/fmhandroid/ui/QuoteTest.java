@@ -44,7 +44,7 @@ public class QuoteTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public  void login() {
+    public void login() {
 
         onView(withId(R.id.splashscreen_text_view))
                 .check(matches(not(isDisplayed())));
@@ -55,21 +55,11 @@ public class QuoteTest {
 
     @Test
     public void quoteTest() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         onView(withText(containsString("Хоспис для меня")))
                 .check(matches(isDisplayed()));
         onView(withText(containsString("Хоспис для меня")))
                 .perform(click());
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(withText(containsString("Ну, идеальное устройство мира в моих глазах. Где никто не оценивает, никто не осудит, где говоришь, и тебя слышат, ")))
                 .check(matches(isDisplayed()));

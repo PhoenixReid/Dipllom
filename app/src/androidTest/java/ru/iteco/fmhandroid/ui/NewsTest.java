@@ -31,13 +31,7 @@ public class NewsTest {
             new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
-    public  void login() {
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void login() {
         onView(withId(R.id.main_menu_image_button))
                 .perform(click());
         onView(withText("Новости")).perform(click());
@@ -46,8 +40,8 @@ public class NewsTest {
 
     @Test
     public void ClickTest() {
-        onView(withText("Объявление")).perform(click());
-        onView(allOf(withText("fghgf"), isDisplayed())).check(matches(isDisplayed()));
+        onView(withText("Праздник")).perform(click());
+        onView(allOf(withText("уже прошел"), isDisplayed())).check(matches(isDisplayed()));
 
     }
 }

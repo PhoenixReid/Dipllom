@@ -46,11 +46,6 @@ public class AuthTest {
 
     @Test
     public void authUnLoginTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         onView(
                 allOf(
                         withHint("Логин"),
@@ -65,7 +60,6 @@ public class AuthTest {
                 )
         ).perform(replaceText("password2"));
 
-        // Нажимаем "Войти"
         onView(withId(R.id.enter_button))
                 .perform(click());
 
@@ -75,11 +69,6 @@ public class AuthTest {
 
     @Test
     public void authUnPasswordTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(
                 allOf(
@@ -106,11 +95,6 @@ public class AuthTest {
 
     @Test
     public void authNullLoginTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(
                 allOf(
@@ -129,11 +113,6 @@ public class AuthTest {
 
     @Test
     public void authNullPasswordTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(
                 allOf(
@@ -151,11 +130,6 @@ public class AuthTest {
 
     @Test
     public void authSpaceLoginTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(
                 allOf(
@@ -181,11 +155,6 @@ public class AuthTest {
 
     @Test
     public void authSpacePasswordTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(
                 allOf(
@@ -211,11 +180,6 @@ public class AuthTest {
 
     @Test
     public void authTest() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(
                 allOf(
@@ -234,12 +198,6 @@ public class AuthTest {
         // Нажимаем "Войти"
         onView(withId(R.id.enter_button))
                 .perform(click());
-
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(withText("Новости")).check(matches(isDisplayed()));
         ViewInteraction textView = onView(

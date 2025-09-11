@@ -49,11 +49,6 @@ public class FilterTest {
     @Before
     public void login() {
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         onView(withId(R.id.main_menu_image_button))
                 .perform(click());
         onView(withText("Новости")).perform(click());
@@ -83,25 +78,24 @@ public class FilterTest {
 
     @Test
     public void filterTest() {
-        // 1. Открыть фильтр
+
         onView(withId(R.id.filter_news_material_button)).perform(click());
 
-        // 2. Клик по полю начала даты — открывает DatePicker
+
         onView(withId(R.id.news_item_publish_date_start_text_input_layout)).perform(click());
 
-        // 3. Работа с DatePicker через UiAutomator
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.wait(Until.hasObject(By.text("12")), 5000);
         device.findObject(By.text("12")).click(); // выбери нужное число
 
-        // 4. Клик по полю конца даты
+
         onView(withId(R.id.news_item_publish_date_end_text_input_layout)).perform(click());
         device.findObject(By.text("12")).click();
 
-        // 5. Применить фильтр
+
         onView(withId(R.id.filter_button)).perform(click());
 
-        // 6. Проверка
+
         onView(withText("Благодарность")).check(matches(isDisplayed()));
     }
 
