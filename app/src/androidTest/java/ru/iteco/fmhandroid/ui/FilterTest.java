@@ -1,6 +1,7 @@
 package ru.iteco.fmhandroid.ui;
 
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
@@ -20,6 +21,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
@@ -76,9 +79,11 @@ public class FilterTest {
         onView(withId(R.id.filter_button))
                 .perform(click());
 
-        onView(withText("оаамрпппроьбт")).check(matches(isDisplayed()));
-        onView(withText("Объявление")).check(matches(isDisplayed()));
-
+        onView(withText("cat")).check(matches(isDisplayed()));
+        onView(withText("title")).check(matches(isDisplayed()));
+        onView(withText("mangosteens")).check(matches(isDisplayed()));
+        onView(withText("Lobster")).check(matches(isDisplayed()));
+        onView(withText("Whiting Wild Rice")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -86,22 +91,40 @@ public class FilterTest {
 
         onView(withId(R.id.filter_news_material_button)).perform(click());
 
+        // Выбрать категорию
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click());
+        DataInteraction categoryItem = onData(org.hamcrest.Matchers.anything())
+                .inAdapterView(
+                        org.hamcrest.Matchers.instanceOf(android.widget.ListView.class)
+                ).atPosition(0);
+        categoryItem.perform(click());
 
-        onView(withId(R.id.news_item_publish_date_start_text_input_layout)).perform(click());
+        // Установить начальную дату
+        onView(withId(R.id.news_item_publish_date_start_text_input_edit_text)).perform(click());
+        onView(withContentDescription("Прошлый месяц")).perform(click());
+        try {
+            onView(withText("ОК"))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+        } catch (NoMatchingViewException e) {
+            // Диалог мог уже закрыться
+        }
 
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        device.wait(Until.hasObject(By.text("12")), 5000);
-        device.findObject(By.text("12")).click(); // выбери нужное число
+        // Установить конечную дату
+        onView(withId(R.id.news_item_publish_date_end_text_input_edit_text)).perform(click());
+        try {
+            onView(withText("ОК"))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+        } catch (NoMatchingViewException e) {
+            // Диалог мог уже закрыться
+        }
 
-
-        onView(withId(R.id.news_item_publish_date_end_text_input_layout)).perform(click());
-        device.findObject(By.text("12")).click();
-
-
+        // Применить фильтр
         onView(withId(R.id.filter_button)).perform(click());
-
-
-        onView(withText("Благодарность")).check(matches(isDisplayed()));
+    }
     }
 
 

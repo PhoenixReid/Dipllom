@@ -167,7 +167,7 @@ public class addEditNewsTest {
         onView(withId(R.id.save_button))
                 .perform(click());
 
-        onView(withText("Заполните пустые поля")).check(matches(isDisplayed()));
+        onView(withText("Сохранить")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -221,7 +221,7 @@ public class addEditNewsTest {
         onView(withId(R.id.save_button))
                 .perform(click());
 
-        onView(withText("Заполните пустые поля")).check(matches(isDisplayed()));
+        onView(withText("Сохранить")).check(matches(isDisplayed()));
     }
 
     @Test

@@ -55,10 +55,10 @@ public class MainTest {
     @Test
     public void expandTest() {
 
-        onView(withText("Массаж")).check(matches(isDisplayed()));
+        onView(withText("Праздник")).check(matches(isDisplayed()));
         onView(withId(R.id.expand_material_button))
                 .perform(click());
-        onView(withText("Массаж")).check(matches(not(isDisplayed())));
+        onView(withText("Праздник")).check(matches(not(isDisplayed())));
 
 
     }
@@ -66,9 +66,9 @@ public class MainTest {
     @Test
     public void newsListTest() {
 
-        onView(withText("Массаж")).perform(click());
+        onView(withText("Праздник")).perform(click());
 
-        onView(allOf(withText("ffhkyff"), isDisplayed())).check(matches(isDisplayed()));
+        onView(allOf(withText("уже прошел"), isDisplayed())).check(matches(isDisplayed()));
     }
 
 
