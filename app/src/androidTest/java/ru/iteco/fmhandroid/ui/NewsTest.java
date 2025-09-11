@@ -32,6 +32,11 @@ public class NewsTest {
 
     @Before
     public void login() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.main_menu_image_button))
                 .perform(click());
         onView(withText("Новости")).perform(click());

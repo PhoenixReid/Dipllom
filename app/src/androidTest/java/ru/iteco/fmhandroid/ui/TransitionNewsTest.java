@@ -16,6 +16,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNot.not;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,11 @@ public class TransitionNewsTest {
 
     @Before
     public void login() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.main_menu_image_button))
                 .perform(click());
         onView(withText("Новости")).perform(click());

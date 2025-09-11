@@ -15,6 +15,11 @@ import ru.iteco.fmhandroid.R;
 public class TransitionQuoteTest {
     @Before
     public void login() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.our_mission_image_button))
                 .perform(click());
         onView(withText("Главное - жить любя")).check(matches(isDisplayed()));

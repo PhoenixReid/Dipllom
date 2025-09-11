@@ -199,6 +199,12 @@ public class AuthTest {
         onView(withId(R.id.enter_button))
                 .perform(click());
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(withText("Новости")).check(matches(isDisplayed()));
         ViewInteraction textView = onView(
                 allOf(withText("Новости"),

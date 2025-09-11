@@ -50,6 +50,15 @@ public class TransitionMainTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
+    @Before
+    public void login() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void quoteTest() {
         onView(withId(R.id.our_mission_image_button))
