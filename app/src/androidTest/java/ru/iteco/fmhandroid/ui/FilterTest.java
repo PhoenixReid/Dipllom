@@ -20,15 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
-import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.Until;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -43,7 +39,7 @@ import ru.iteco.fmhandroid.R;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterTest {
+public class filtertest {
 
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -87,7 +83,7 @@ public class FilterTest {
     }
 
     @Test
-    public void filterTest() {
+    public void filterDataTest() {
 
         onView(withId(R.id.filter_news_material_button)).perform(click());
 

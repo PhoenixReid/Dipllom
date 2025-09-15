@@ -7,6 +7,7 @@ import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -34,6 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ru.iteco.fmhandroid.R;
+import ru.utils.waitDisplayed;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -45,11 +47,7 @@ public class QuoteTest {
 
     @Before
     public void login() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            onView(isRoot()).perform(new waitDisplayed(R.id.our_mission_image_button, 5000));
         onView(withId(R.id.our_mission_image_button))
                 .perform(click());
 
