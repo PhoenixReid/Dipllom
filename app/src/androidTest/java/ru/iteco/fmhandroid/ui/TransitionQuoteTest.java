@@ -3,45 +3,35 @@ package ru.iteco.fmhandroid.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
 
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
-import androidx.test.uiautomator.UiDevice;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.uiautomator.UiDevice;
 
-
+import ru.Page.AboutAppPage;
+import ru.Page.AuthPage;
+import ru.Page.MainMenuPage;
+import ru.Page.NewsPage;
+import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
@@ -53,41 +43,35 @@ public class TransitionQuoteTest {
 
     @Before
     public void login() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        onView(withId(R.id.our_mission_image_button))
-                .perform(click());
-        onView(withText("Главное - жить любя")).check(matches(isDisplayed()));
+        new AuthPage().Auth("login2","password2");
+
+        new TopMenuPage().Qoute();
+    }
+
+    @After
+    public void exit() {
+        new TopMenuPage().Exit();
     }
 
     @Test
     public void newsTest() {
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("Новости")).perform(click());
+        new TopMenuPage().MainMenuButton("Новости");
 
-        onView(withText("Праздник")).check(matches(isDisplayed()));
+        new NewsPage().PointNews();
     }
 
     @Test
     public void aboutAppTest() {
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("О приложении")).perform(click());
+        new TopMenuPage().MainMenuButton("О приложении");
 
-        onView(withText("Версия:")).check(matches(isDisplayed()));
+        new AboutAppPage().AboutAppPoint();
     }
 
     @Test
     public void maimTest() {
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("Главная")).perform(click());
+        new TopMenuPage().MainMenuButton("Главная");
 
-        onView(withText("Праздник")).check(matches(isDisplayed()));
+        new MainMenuPage().PointMain();
     }
 
     private static Matcher<View> childAtPosition(

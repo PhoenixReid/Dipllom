@@ -8,6 +8,7 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
@@ -32,6 +33,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -41,7 +43,14 @@ import org.junit.runner.RunWith;
 import androidx.test.uiautomator.UiDevice;
 
 
+import ru.Page.AboutAppPage;
+import ru.Page.AuthPage;
+import ru.Page.MainMenuPage;
+import ru.Page.NewsPage;
+import ru.Page.QoutePage;
+import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
+import ru.utils.waitDisplayed;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -52,48 +61,44 @@ public class TransitionMainTest {
 
     @Before
     public void login() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+       new AuthPage().Auth("login2","password2");
+    }
+
+    @After
+    public void exit() {
+        new TopMenuPage().Exit();
     }
 
     @Test
     public void quoteTest() {
-        onView(withId(R.id.our_mission_image_button))
-                .perform(click());
+       new TopMenuPage().Qoute();
 
-
-        onView(withText("Главное - жить любя")).check(matches(isDisplayed()));
+       new QoutePage().QoutePoint();
     }
 
     @Test
     public void newsTest() {
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("Новости")).perform(click());
+        new TopMenuPage().MainMenuButton("Новости");
 
-        onView(withText("Праздник")).check(matches(isDisplayed()));
+        new NewsPage().PointNews();
     }
 
     @Test
     public void allNewsTest() {
+        onView(isRoot()).perform(new waitDisplayed(R.id.main_menu_image_button, 5000));
 
-        onView(withText("ВСЕ НОВОСТИ")).perform(click());
+        new MainMenuPage().AllNews();
 
-        onView(withText("Праздник")).check(matches(isDisplayed()));
+        new NewsPage().PointNews();
     }
 
     @Test
     public void aboutAppTest() {
+        new TopMenuPage().MainMenuButton("О приложении");
 
+        new AboutAppPage().AboutAppPoint();
 
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("О приложении")).perform(click());
-
-        onView(withText("Версия:")).check(matches(isDisplayed()));
+        new AboutAppPage().AboutAppExit();
     }
 
     private static Matcher<View> childAtPosition(

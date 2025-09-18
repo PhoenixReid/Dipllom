@@ -8,6 +8,7 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;
@@ -36,7 +37,9 @@ import org.junit.runner.RunWith;
 
 
 import ru.iteco.fmhandroid.R;
-
+import ru.Page.AuthPage;
+import ru.utils.waitDisplayed;
+import ru.Page.TopMenuPage;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AuthTest {
@@ -45,187 +48,58 @@ public class AuthTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
-    @Before
-    public void login() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     public void authUnLoginTest() {
-        onView(
-                allOf(
-                        withHint("Логин"),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))
-                )
-        ).perform(replaceText("login1"));
+        new AuthPage().Auth("login1", "password2");
 
-        onView(
-                allOf(
-                        withHint("Пароль"),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))
-                )
-        ).perform(replaceText("password2"));
-
-        onView(withId(R.id.enter_button))
-                .perform(click());
-
-
-        onView(withText("Авторизация")).check(matches(isDisplayed()));
+        new AuthPage().AuthUnSucess();
     }
 
     @Test
     public void authUnPasswordTest() {
+        new AuthPage().Auth("login2", "password1");
 
-        onView(
-                allOf(
-                        withHint("Логин"),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))
-                )
-        ).perform(replaceText("login2"));
-
-        onView(
-                allOf(
-                        withHint("Пароль"),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))
-                )
-        ).perform(replaceText("password1"));
-
-        // Нажимаем "Войти"
-        onView(withId(R.id.enter_button))
-                .perform(click());
-
-
-        onView(withText("Авторизация")).check(matches(isDisplayed()));
-
+        new AuthPage().AuthUnSucess();
     }
 
     @Test
     public void authNullLoginTest() {
+        new AuthPage().Auth("", "password2");
 
-        onView(
-                allOf(
-                        withHint("Пароль"),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))
-                )
-        ).perform(replaceText("password2"));
-
-        // Нажимаем "Войти"
-        onView(withId(R.id.enter_button))
-                .perform(click());
-
-        onView(withText("Авторизация")).check(matches(isDisplayed()));
-
+        new AuthPage().AuthUnSucess();
     }
 
     @Test
     public void authNullPasswordTest() {
+        new AuthPage().Auth("login2", "");
 
-        onView(
-                allOf(
-                        withHint("Логин"),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))
-                )
-        ).perform(replaceText("login2"));
-
-        // Нажимаем "Войти"
-        onView(withId(R.id.enter_button))
-                .perform(click());
-
-        onView(withText("Авторизация")).check(matches(isDisplayed()));
+        new AuthPage().AuthUnSucess();
     }
 
     @Test
     public void authSpaceLoginTest() {
+        new AuthPage().Auth("   ", "password2");
 
-        onView(
-                allOf(
-                        withHint("Логин"),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))
-                )
-        ).perform(replaceText("     "));
-
-        onView(
-                allOf(
-                        withHint("Пароль"),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))
-                )
-        ).perform(replaceText("password2"));
-
-        // Нажимаем "Войти"
-        onView(withId(R.id.enter_button))
-                .perform(click());
-
-        onView(withText("Авторизация")).check(matches(isDisplayed()));
-
+        new AuthPage().AuthUnSucess();
     }
 
     @Test
     public void authSpacePasswordTest() {
+        new AuthPage().Auth("login2", "   ");
 
-        onView(
-                allOf(
-                        withHint("Логин"),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))
-                )
-        ).perform(replaceText("login2"));
-
-        onView(
-                allOf(
-                        withHint("Пароль"),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))
-                )
-        ).perform(replaceText("   "));
-
-        // Нажимаем "Войти"
-        onView(withId(R.id.enter_button))
-                .perform(click());
-
-        onView(withText("Авторизация")).check(matches(isDisplayed()));
-
+        new AuthPage().AuthUnSucess();
     }
 
     @Test
     public void authTest() {
 
-        onView(
-                allOf(
-                        withHint("Логин"),
-                        isDescendantOfA(withId(R.id.login_text_input_layout))
-                )
-        ).perform(replaceText("login2"));
+        new AuthPage().Auth("login2", "password2");
 
-        onView(
-                allOf(
-                        withHint("Пароль"),
-                        isDescendantOfA(withId(R.id.password_text_input_layout))
-                )
-        ).perform(replaceText("password2"));
+        onView(isRoot()).perform(new waitDisplayed(R.id.authorization_image_button, 5000));
 
-        // Нажимаем "Войти"
-        onView(withId(R.id.enter_button))
-                .perform(click());
+        new AuthPage().AuthSucess();
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        onView(withText("Новости")).check(matches(isDisplayed()));
-        ViewInteraction textView = onView(
-                allOf(withText("Новости"),
-                        withParent(withParent(withId(R.id.container_list_news_include_on_fragment_main))),
-                        isDisplayed()));
-        textView.check(matches(withText("Новости")));
-
-        onView(withId(R.id.authorization_image_button))
-                .perform(click());
-        onView(withText("Выйти")).perform(click());
-
+        new TopMenuPage().Exit();
     }
 
     private static Matcher<View> childAtPosition(

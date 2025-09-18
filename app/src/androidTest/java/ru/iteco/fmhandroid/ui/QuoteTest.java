@@ -29,14 +29,17 @@ import androidx.test.filters.LargeTest;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.Page.AuthPage;
+import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
-
+import ru.Page.QoutePage;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class QuoteTest {
@@ -47,24 +50,20 @@ public class QuoteTest {
 
     @Before
     public void login() {
-            onView(isRoot()).perform(new waitDisplayed(R.id.our_mission_image_button, 5000));
-        onView(withId(R.id.our_mission_image_button))
-                .perform(click());
+        new AuthPage().Auth("login2", "password2");
+        new TopMenuPage().Qoute();
+    }
 
+    @After
+    public void exit() {
+        new TopMenuPage().Exit();
     }
 
     @Test
     public void quoteTest() {
-        onView(withText(containsString("Хоспис для меня")))
-                .check(matches(isDisplayed()));
-        onView(withText(containsString("Хоспис для меня")))
-                .perform(click());
+        new QoutePage().ClickQoute("Хоспис для меня");
 
-
-        onView(withText(containsString("Ну, идеальное устройство мира в моих глазах. Где никто не оценивает, никто не осудит, где говоришь, и тебя слышат, ")))
-                .check(matches(isDisplayed()));
-
-
+        new QoutePage().QuoteDesc("Ну, идеальное устройство мира в моих глазах. Где никто не оценивает, никто не осудит, где говоришь, и тебя слышат, ");
     }
 
     private static Matcher<View> childAtPosition(

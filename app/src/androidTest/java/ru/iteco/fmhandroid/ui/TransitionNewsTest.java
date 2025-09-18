@@ -33,6 +33,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -42,6 +43,11 @@ import org.junit.runner.RunWith;
 import androidx.test.uiautomator.UiDevice;
 
 
+import ru.Page.AboutAppPage;
+import ru.Page.AuthPage;
+import ru.Page.MainMenuPage;
+import ru.Page.QoutePage;
+import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
@@ -53,42 +59,38 @@ public class TransitionNewsTest {
 
     @Before
     public void login() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("Новости")).perform(click());
+        new AuthPage().Auth("login2","password2");
+
+        new TopMenuPage().MainMenuButton("Новости");
+    }
+
+    @After
+    public void exit() {
+        new TopMenuPage().Exit();
     }
 
 
     @Test
     public void quoteTest() {
-        onView(withId(R.id.our_mission_image_button))
-                .perform(click());
+        new TopMenuPage().Qoute();
 
-        onView(withText("Главное - жить любя")).check(matches(isDisplayed()));
+        new QoutePage().QoutePoint();
     }
 
     @Test
     public void maimTest() {
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("Главная")).perform(click());
+        new TopMenuPage().MainMenuButton("Главная");
 
-        onView(withText("Праздник")).check(matches(isDisplayed()));
+        new MainMenuPage().PointMain();
     }
 
     @Test // данный тест должен упасть так как кнопка О приложении недоступна
     public void aboutAppTest() {
+        new TopMenuPage().MainMenuButton("О приложении");
 
-        onView(withId(R.id.main_menu_image_button))
-                .perform(click());
-        onView(withText("О приложении")).perform(click());
+        new AboutAppPage().AboutAppPoint();
 
-        onView(withText("Версия:")).check(matches(isDisplayed()));
+        new AboutAppPage().AboutAppExit();
     }
 
     private static Matcher<View> childAtPosition(

@@ -14,6 +14,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 
+import android.icu.text.SimpleDateFormat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -28,12 +29,22 @@ import androidx.test.uiautomator.UiDevice;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
+import java.util.Date;
+import java.util.Locale;
+
+import ru.Page.AddEditNewsPage;
+import ru.Page.AuthPage;
+import ru.Page.EditNewsPage;
+import ru.Page.MainMenuPage;
+import ru.Page.NewsPage;
+import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
@@ -46,29 +57,48 @@ public class MainTest {
 
     @Before
     public void login() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new AuthPage().Auth("login2","password2");
+
+        new TopMenuPage().MainMenuButton("Новости");
+
+        new NewsPage().NewsEditClick();
+
+        new EditNewsPage().AddNewsClick();
+
+        String today = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+        new AddEditNewsPage().AddNews("Зарплата", "Зарплата Аовы", "больше чем у вас", today);
+
+        new TopMenuPage().MainMenuButton("Главная");
     }
+
+    @After
+    public void exit() {
+        new TopMenuPage().MainMenuButton("Новости");
+
+        new NewsPage().NewsEditClick();
+
+        new EditNewsPage().DeleteNews("Зарплата Аовы");
+
+        new TopMenuPage().Exit();
+    }
+
     @Test
     public void expandTest() {
 
-        onView(withText("Праздник")).check(matches(isDisplayed()));
-        onView(withId(R.id.expand_material_button))
-                .perform(click());
-        onView(withText("Праздник")).check(matches(not(isDisplayed())));
+        new NewsPage().TextExists("Зарплата Аовы");
+
+        new MainMenuPage().ExpandButtonClick();
 
 
+        new NewsPage().TextNOExists("Зарплата Аовы");
     }
 
     @Test
     public void newsListTest() {
 
-        onView(withText("Праздник")).perform(click());
+        new NewsPage().ClickNews("Зарплата Аовы");
 
-        onView(allOf(withText("уже прошел"), isDisplayed())).check(matches(isDisplayed()));
+        new NewsPage().TextExists("больше чем у вас");
     }
 
 
