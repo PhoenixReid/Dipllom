@@ -35,7 +35,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ru.Data.AuthData;
+import ru.Data.QouteData;
+import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
+import ru.Page.EditNewsPage;
+import ru.Page.FilterPage;
+import ru.Page.NewsPage;
 import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
@@ -50,20 +56,30 @@ public class QuoteTest {
 
     @Before
     public void login() {
-        new AuthPage().Auth("login2", "password2");
-        new TopMenuPage().Qoute();
+        if (authPage.checkAuth()) {
+
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
+
+        topMenuPage.qoute();
     }
 
     @After
     public void exit() {
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
+
+    TopMenuPage topMenuPage = new TopMenuPage();
+    AuthPage authPage = new AuthPage();
+    QoutePage qoutePage = new QoutePage();
 
     @Test
     public void quoteTest() {
-        new QoutePage().ClickQoute("Хоспис для меня");
+        qoutePage.clickQoute(QouteData.titleQoute);
 
-        new QoutePage().QuoteDesc("Ну, идеальное устройство мира в моих глазах. Где никто не оценивает, никто не осудит, где говоришь, и тебя слышат, ");
+        qoutePage.quoteDesc(QouteData.descriptionQoute);
     }
 
     private static Matcher<View> childAtPosition(

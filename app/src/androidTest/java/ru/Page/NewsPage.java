@@ -17,33 +17,34 @@ import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
 
 public class NewsPage {
-    public void PointNews(){
+    public void pointNews(){
         onView(withId(R.id.news_list_swipe_refresh))
                 .check(matches(isDisplayed()));
     }
 
-    public void ClickNews(String Name){
+    public void clickNews(String Name){
         onView(withText(Name)).perform(click());
     }
 
-    public void NewsEditClick(){
+    public void newsEditClick(){
+        onView(isRoot()).perform(new waitDisplayed(R.id.edit_news_material_button, 5000));
         onView(withId(R.id.edit_news_material_button))
                 .perform(click());
     }
 
-    public void TextExists(String text){
+    public void textExists(String text){
         onView(withText(text)).check(matches(isDisplayed()));
     }
 
-    public void TextNOExists(String text){
+    public void textNOExists(String text){
         onView(withText(text)).check(matches(not(isDisplayed())));;
     }
 
-    public void NoText(String text) {
+    public void noText(String text) {
         onView(withText(text)).check(doesNotExist());
     }
 
-    public void FilterClick(){
+    public void filterClick(){
         onView(isRoot()).perform(new waitDisplayed(R.id.filter_news_material_button, 5000));
         onView(withId(R.id.filter_news_material_button))
                 .perform(click());

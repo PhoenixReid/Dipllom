@@ -12,28 +12,29 @@ import static org.hamcrest.Matchers.containsString;
 
 import java.security.PublicKey;
 
+import ru.Data.TextButtonData;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
 
 public class TopMenuPage {
-    public void Exit(){
+    public void exit(){
         onView(isRoot()).perform(new waitDisplayed(R.id.authorization_image_button, 5000));
 
         onView(withId(R.id.authorization_image_button))
                 .perform(click());
 
-        onView(withText(containsString("Выйти")))
+        onView(withText(containsString(TextButtonData.exitButton)))
                 .perform(click());
     }
 
-    public void Qoute(){
+    public void qoute(){
         onView(isRoot()).perform(new waitDisplayed(R.id.our_mission_image_button, 5000));
 
         onView(withId(R.id.our_mission_image_button))
                 .perform(click());
     }
 
-    public void MainMenuButton(String Name){
+    public void mainMenuButton(String Name){
         onView(isRoot()).perform(new waitDisplayed(R.id.main_menu_image_button, 5000));
         onView(withId(R.id.main_menu_image_button))
                 .perform(click());

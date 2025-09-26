@@ -27,10 +27,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
+import ru.Data.AuthData;
+import ru.Data.TextButtonData;
 import ru.Page.AboutAppPage;
 import ru.Page.AuthPage;
 import ru.Page.MainMenuPage;
 import ru.Page.NewsPage;
+import ru.Page.QoutePage;
 import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 
@@ -43,35 +46,49 @@ public class TransitionQuoteTest {
 
     @Before
     public void login() {
-        new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
 
-        new TopMenuPage().Qoute();
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
+
+       topMenuPage.qoute();
     }
 
     @After
     public void exit() {
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
+
+    AuthPage authPage = new AuthPage();
+    QoutePage qoutePage = new QoutePage();
+    TopMenuPage topMenuPage = new TopMenuPage();
+    MainMenuPage mainMenuPage = new MainMenuPage();
+    AboutAppPage aboutAppPage = new AboutAppPage();
+    NewsPage newsPage = new NewsPage();
 
     @Test
     public void newsTest() {
-        new TopMenuPage().MainMenuButton("Новости");
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new NewsPage().PointNews();
+        newsPage.pointNews();
     }
 
     @Test
     public void aboutAppTest() {
-        new TopMenuPage().MainMenuButton("О приложении");
+        topMenuPage.mainMenuButton(TextButtonData.aboutAppButton);
 
-        new AboutAppPage().AboutAppPoint();
+        aboutAppPage.aboutAppPoint();
+
+        aboutAppPage.aboutAppExit();
     }
 
     @Test
-    public void maimTest() {
-        new TopMenuPage().MainMenuButton("Главная");
+    public void mainTest() {
+        topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
 
-        new MainMenuPage().PointMain();
+        mainMenuPage.pointMain();
     }
 
     private static Matcher<View> childAtPosition(

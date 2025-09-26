@@ -18,9 +18,12 @@ import static org.hamcrest.Matchers.allOf;
 
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
+import ru.Data.TextButtonData;
 
 public class AuthPage {
-    public void Auth(String login, String password){
+    TopMenuPage topMenuPage = new TopMenuPage();
+
+    public void auth(String login, String password){
         onView(isRoot()).perform(new waitDisplayed(R.id.login_text_input_layout, 5000));
 
         onView(allOf(withHint("Логин"), isDescendantOfA(withId(R.id.login_text_input_layout))))
@@ -35,11 +38,27 @@ public class AuthPage {
 
     }
 
-    public  void  AuthSucess(){
-        onView(withText("ВСЕ НОВОСТИ")).check(matches(isDisplayed()));
+    public  void  authSucess(){
+        onView(isRoot()).perform(new waitDisplayed(R.id.authorization_image_button, 5000));
+
+        onView(withText(TextButtonData.allNewsButton)).check(matches(isDisplayed()));
     }
 
-    public  void  AuthUnSucess(){
+    public  boolean  checkAuth(){
+        try {
+            onView(isRoot()).perform(new waitDisplayed(R.id.authorization_image_button, 5000));
+
+            onView(withText(TextButtonData.allNewsButton)).check(matches(isDisplayed()));
+
+          return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    public  void  authUnSucess(){
         onView(withText("Авторизация")).check(matches(isDisplayed()));
     }
 }

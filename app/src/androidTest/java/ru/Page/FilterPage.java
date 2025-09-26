@@ -21,7 +21,7 @@ import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.dto.News;
 
 public class FilterPage {
-    public void FilterCategory(String category){
+    public void filterCategory(String category){
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .perform(click());
 
@@ -31,12 +31,12 @@ public class FilterPage {
                 .perform(click());
     }
 
-    public void ClickFilter(){
+    public void clickFilter(){
         onView(withId(R.id.filter_button))
                 .perform(click());
     }
 
-    public void StartDate(String startDay){
+    public void startDate(String startDay){
         onView(withId(R.id.news_item_publish_date_start_text_input_layout))
                 .perform(click());
 
@@ -48,7 +48,7 @@ public class FilterPage {
                 .perform(click());
     }
 
-    public void EndDate(String endDay){
+    public void endDate(String endDay){
         onView(withId(R.id.news_item_publish_date_end_text_input_layout))
                 .perform(click());
 

@@ -10,11 +10,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import ru.iteco.fmhandroid.R;
 
 public class AboutAppPage {
-    public void AboutAppPoint(){
+    public void aboutAppPoint(){
         onView(withText("Версия:")).check(matches(isDisplayed()));
     }
 
-    public void AboutAppExit(){
+    public void aboutAppExit(){
         onView(withId(R.id.about_back_image_button))
                 .perform(click());
     }

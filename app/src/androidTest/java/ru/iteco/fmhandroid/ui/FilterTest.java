@@ -22,10 +22,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import ru.Data.AuthData;
+import ru.Data.NewsData;
+import ru.Data.TextButtonData;
 import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
 import ru.Page.EditNewsPage;
 import ru.Page.FilterPage;
+import ru.Page.MainMenuPage;
 import ru.Page.NewsPage;
 import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
@@ -37,73 +41,81 @@ public class FilterTest {
 
     @Before
     public void login(){
-        new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
 
-        new TopMenuPage().MainMenuButton("Новости");
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
 
-        new NewsPage().NewsEditClick();
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new EditNewsPage().AddNewsClick();
+        newsPage.newsEditClick();
 
-        String today = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-        new AddEditNewsPage().AddNews("Зарплата", "Зарплата Аовы", "больше чем у вас", today);
+        editNewsPage.addNewsClick();
 
-        new EditNewsPage().AddNewsClick();
-        String day = new SimpleDateFormat("dd", Locale.getDefault())
-                .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(3)));
-        new AddEditNewsPage().AddNews("Зарплата", "Зарплата уменьшилась на 5%", "Уменьшение зп у всех на 5%", day);
+        addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
 
-        new EditNewsPage().AddNewsClick();
-        new AddEditNewsPage().AddNews("Объявление", "Объявляние о зарплате Аовы", "больше чем у вас", today);
 
-        new NewsPage().FilterClick();
+        editNewsPage.addNewsClick();
+
+        addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSecondSalary, NewsData.descriptionSecondSalary, NewsData.oneDayPlThree);
+
+        editNewsPage.addNewsClick();
+        addEditNewsPage.addNews(NewsData.categoryNotice, NewsData.titleNotice, NewsData.descriptionSalary, NewsData.today);
+
+        newsPage.filterClick();
     }
 
     @After
     public void exit(){
-        new TopMenuPage().MainMenuButton("Новости");
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new NewsPage().NewsEditClick();
+        newsPage.newsEditClick();
 
-        new EditNewsPage().DeleteNews("Объявляние о зарплате Аовы");
+        editNewsPage.deleteNews(NewsData.titleSalary);
 
-        new EditNewsPage().DeleteNews("Зарплата Аовы");
+        editNewsPage.deleteNews(NewsData.titleSecondSalary);
 
-        new EditNewsPage().DeleteNews("Зарплата уменьшилась на 5%");
+        editNewsPage.deleteNews(NewsData.titleNotice);
 
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
-    String theDayAfterTomorrow = new SimpleDateFormat("dd", Locale.getDefault())
-            .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2)));
-    String yesterday = new SimpleDateFormat("dd", Locale.getDefault())
-            .format(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)));
+
+    TopMenuPage topMenuPage = new TopMenuPage();
+    AuthPage authPage = new AuthPage();
+    NewsPage newsPage = new NewsPage();
+    EditNewsPage editNewsPage = new EditNewsPage();
+    AddEditNewsPage addEditNewsPage = new AddEditNewsPage();
+    FilterPage filterPage = new FilterPage();
+
     @Test
     public void filterNoDatatest(){
-        new FilterPage().FilterCategory("Зарплата");
+        filterPage.filterCategory(NewsData.categorySalary);
 
-        new FilterPage().ClickFilter();
+        filterPage.clickFilter();
 
-        new NewsPage().TextExists("Зарплата уменьшилась на 5%");
+        newsPage.textExists(NewsData.titleSalary);
 
-        new NewsPage().TextExists("Зарплата Аовы");
+        newsPage.textExists(NewsData.titleSecondSalary);
 
-        new NewsPage().NoText("Объявляние о зарплате Аовы");
+        newsPage.noText(NewsData.titleNotice);
     }
 
     @Test
     public void filterTest(){
-        new FilterPage().FilterCategory("Зарплата");
+        filterPage.filterCategory(NewsData.categorySalary);
 
-        new FilterPage().StartDate(yesterday);
+        filterPage.startDate(NewsData.yesterday);
 
-        new FilterPage().EndDate(theDayAfterTomorrow);
+        filterPage.endDate(NewsData.theDayAfterTomorrow);
 
-        new FilterPage().ClickFilter();
+        filterPage.clickFilter();
 
-        new NewsPage().TextExists("Зарплата Аовы");
+        newsPage.textExists(NewsData.titleSalary);
 
-        new NewsPage().NoText("Объявляние о зарплате Аовы");
+        newsPage.noText(NewsData.titleSecondSalary);
 
-        new NewsPage().NoText("Зарплата уменьшилась на 5%");
+        newsPage.noText(NewsData.titleNotice);
     }
 }

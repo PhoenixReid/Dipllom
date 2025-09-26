@@ -13,10 +13,14 @@ import org.junit.runner.Description;
 import java.util.Date;
 import java.util.Locale;
 
+import ru.Data.AuthData;
+import ru.Data.NewsData;
+import ru.Data.TextButtonData;
 import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
 import ru.Page.EditNewsPage;
 import ru.Page.NewsPage;
+import ru.Page.QoutePage;
 import ru.Page.TopMenuPage;
 
 public class AddNewsTest {
@@ -26,40 +30,46 @@ public class AddNewsTest {
 
     @Before
     public void login() {
-        new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
 
-        new TopMenuPage().MainMenuButton("Новости");
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
 
-        new NewsPage().NewsEditClick();
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new EditNewsPage().AddNewsClick();
+        newsPage.newsEditClick();
+
+        editNewsPage.addNewsClick();
     }
 
     @After
     public void exit() {
-
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
 
-    String category = "Зарплата";
-    String title = "Зарплата Аовы";
-    String todayDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
 
-    String today = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-    String description = "больше чем у вас";
+    TopMenuPage topMenuPage = new TopMenuPage();
+    AuthPage authPage = new AuthPage();
+    NewsPage newsPage = new NewsPage();
+    EditNewsPage editNewsPage = new EditNewsPage();
+    AddEditNewsPage addEditNewsPage = new AddEditNewsPage();
+
+
     @Test
     public void addNewsTest(){
-        new AddEditNewsPage().AddNews(category, title, description, today);
+        addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
 
-        new NewsPage().TextExists(title);
+        newsPage.textExists(NewsData.titleSalary);
 
-        new NewsPage().ClickNews(title);
+        newsPage.clickNews(NewsData.titleSalary);
 
-        new NewsPage().TextExists(description);
+        newsPage.textExists(NewsData.descriptionSalary);
 
-        new NewsPage().TextExists(todayDate);
+        newsPage.textExists(NewsData.todayDate);
 
-        new EditNewsPage().DeleteNews(title);
+        editNewsPage.deleteNews(NewsData.titleSalary);
     }
 
 }

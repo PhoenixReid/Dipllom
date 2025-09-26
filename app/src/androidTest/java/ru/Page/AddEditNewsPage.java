@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
@@ -24,7 +25,9 @@ import ru.utils.waitDisplayed;
 
 public class AddEditNewsPage {
 
-    public void Category(String Category){
+    public void category(String Category){
+        onView(isRoot()).perform(new waitDisplayed(R.id.news_item_category_text_auto_complete_text_view, 5000));
+
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .perform(click());
 
@@ -39,15 +42,17 @@ public class AddEditNewsPage {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
+
+
     }
 
-    public void Title(String title){
+    public void title(String title){
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .perform(replaceText(title));
     }
 
 
-    public void Date(String Data){
+    public void date(String Data){
         onView(withId(R.id.news_item_publish_date_text_input_edit_text))
                 .perform(click());
 
@@ -61,7 +66,7 @@ public class AddEditNewsPage {
                 .perform(click());
     }
 
-    public void Time(){
+    public void time(){
         onView(withId(R.id.news_item_publish_time_text_input_edit_text))
                 .perform(click());
 
@@ -70,39 +75,40 @@ public class AddEditNewsPage {
                 .perform(click());
     }
 
-    public void Description(String description){
+    public void description(String description){
         onView(withId(R.id.news_item_description_text_input_edit_text))
                 .perform(replaceText(description), closeSoftKeyboard());
 
     }
 
-    public void ClickSaveButton(){
+    public void clickSaveButton(){
+        onView(isRoot()).perform(new waitDisplayed(R.id.save_button, 5000));
         onView(withId(R.id.save_button))
                 .perform(click());
     }
 
-    public void ActivionButton(){
+    public void activionButton(){
         onView(withId(R.id.switcher))
                 .perform(click());
     }
 
-    public void AddNews(String category, String title,String description,String data){
-        new AddEditNewsPage().Category(category);
+    public void addNews(String category, String title,String description,String data){
+        new AddEditNewsPage().category(category);
 
-        new AddEditNewsPage().Title(title);
+        new AddEditNewsPage().title(title);
 
-        new AddEditNewsPage().Date(data);
+        new AddEditNewsPage().date(data);
 
-        new AddEditNewsPage().Time();
+        new AddEditNewsPage().time();
 
-        new AddEditNewsPage().Description(description);
+        new AddEditNewsPage().description(description);
 
-        new AddEditNewsPage().ClickSaveButton();
+        new AddEditNewsPage().clickSaveButton();
 
-        new NewsPage().TextExists(title);
+        new NewsPage().textExists(title);
     }
 
-    public void CancelClick(){
+    public void cancelClick(){
         onView(withId(R.id.cancel_button))
                 .perform(click());
 

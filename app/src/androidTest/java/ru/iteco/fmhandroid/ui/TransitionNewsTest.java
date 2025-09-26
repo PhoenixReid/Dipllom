@@ -43,6 +43,8 @@ import org.junit.runner.RunWith;
 import androidx.test.uiautomator.UiDevice;
 
 
+import ru.Data.AuthData;
+import ru.Data.TextButtonData;
 import ru.Page.AboutAppPage;
 import ru.Page.AuthPage;
 import ru.Page.MainMenuPage;
@@ -59,38 +61,47 @@ public class TransitionNewsTest {
 
     @Before
     public void login() {
-        new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
 
-        new TopMenuPage().MainMenuButton("Новости");
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
+
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
     }
 
     @After
     public void exit() {
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
 
+    AuthPage authPage = new AuthPage();
+    QoutePage qoutePage = new QoutePage();
+    TopMenuPage topMenuPage = new TopMenuPage();
+    MainMenuPage mainMenuPage = new MainMenuPage();
+    AboutAppPage aboutAppPage = new AboutAppPage();
+
+    @Test
+    public void mainTest() {
+        topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
+
+        mainMenuPage.pointMain();
+    }
 
     @Test
     public void quoteTest() {
-        new TopMenuPage().Qoute();
-
-        new QoutePage().QoutePoint();
-    }
-
-    @Test
-    public void maimTest() {
-        new TopMenuPage().MainMenuButton("Главная");
-
-        new MainMenuPage().PointMain();
+        topMenuPage.qoute();
+        qoutePage.qoutePoint();
     }
 
     @Test // данный тест должен упасть так как кнопка О приложении недоступна
     public void aboutAppTest() {
-        new TopMenuPage().MainMenuButton("О приложении");
+        topMenuPage.mainMenuButton(TextButtonData.aboutAppButton);
 
-        new AboutAppPage().AboutAppPoint();
+        aboutAppPage.aboutAppPoint();
 
-        new AboutAppPage().AboutAppExit();
+        aboutAppPage.aboutAppExit();
     }
 
     private static Matcher<View> childAtPosition(

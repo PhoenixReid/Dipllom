@@ -43,6 +43,8 @@ import org.junit.runner.RunWith;
 import androidx.test.uiautomator.UiDevice;
 
 
+import java.util.Date;
+
 import ru.Page.AboutAppPage;
 import ru.Page.AuthPage;
 import ru.Page.MainMenuPage;
@@ -51,7 +53,8 @@ import ru.Page.QoutePage;
 import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
-
+import ru.Data.AuthData;
+import ru.Data.TextButtonData;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class TransitionMainTest {
@@ -61,44 +64,52 @@ public class TransitionMainTest {
 
     @Before
     public void login() {
-       new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
+
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
     }
 
     @After
     public void exit() {
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
+
+    AuthPage authPage = new AuthPage();
+    TopMenuPage topMenuPage = new TopMenuPage();
+    QoutePage qoutePage = new QoutePage();
+    NewsPage newsPage = new NewsPage();
 
     @Test
     public void quoteTest() {
-       new TopMenuPage().Qoute();
+       topMenuPage.qoute();
 
-       new QoutePage().QoutePoint();
+       qoutePage.qoutePoint();
     }
 
     @Test
     public void newsTest() {
-        new TopMenuPage().MainMenuButton("Новости");
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new NewsPage().PointNews();
+        newsPage.pointNews();
     }
 
     @Test
     public void allNewsTest() {
-        onView(isRoot()).perform(new waitDisplayed(R.id.main_menu_image_button, 5000));
+        new MainMenuPage().allNews();
 
-        new MainMenuPage().AllNews();
-
-        new NewsPage().PointNews();
+        new NewsPage().pointNews();
     }
 
     @Test
     public void aboutAppTest() {
-        new TopMenuPage().MainMenuButton("О приложении");
+        new TopMenuPage().mainMenuButton(TextButtonData.aboutAppButton);
 
-        new AboutAppPage().AboutAppPoint();
+        new AboutAppPage().aboutAppPoint();
 
-        new AboutAppPage().AboutAppExit();
+        new AboutAppPage().aboutAppExit();
     }
 
     private static Matcher<View> childAtPosition(

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
@@ -34,12 +35,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+import static org.hamcrest.Matchers.not;
 
 import ru.iteco.fmhandroid.R;
 import ru.Page.AuthPage;
 import ru.utils.waitDisplayed;
 import ru.Page.TopMenuPage;
+import ru.Data.AuthData;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AuthTest {
@@ -48,58 +50,70 @@ public class AuthTest {
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(AppActivity.class);
 
+
+
+    @Before
+    public void setUp() {
+
+        if (authPage.checkAuth()){
+            topMenuPage.exit();
+        }
+    }
+
+
+    AuthPage authPage = new AuthPage();
+    TopMenuPage topMenuPage = new TopMenuPage();
+
     @Test
     public void authUnLoginTest() {
-        new AuthPage().Auth("login1", "password2");
+        authPage.auth(AuthData.unLogin, AuthData.password);
 
-        new AuthPage().AuthUnSucess();
+        authPage.authUnSucess();
     }
 
     @Test
     public void authUnPasswordTest() {
-        new AuthPage().Auth("login2", "password1");
+        authPage.auth(AuthData.login, AuthData.unPassword);
 
-        new AuthPage().AuthUnSucess();
+        authPage.authUnSucess();
     }
 
     @Test
     public void authNullLoginTest() {
-        new AuthPage().Auth("", "password2");
+        authPage.auth(AuthData.nullLogin, AuthData.password);
 
-        new AuthPage().AuthUnSucess();
+        authPage.authUnSucess();
     }
 
     @Test
     public void authNullPasswordTest() {
-        new AuthPage().Auth("login2", "");
+        authPage.auth(AuthData.login, AuthData.nullPassword);
 
-        new AuthPage().AuthUnSucess();
+        authPage.authUnSucess();
     }
 
     @Test
     public void authSpaceLoginTest() {
-        new AuthPage().Auth("   ", "password2");
+        authPage.auth(AuthData.spaseLogin, AuthData.password);
 
-        new AuthPage().AuthUnSucess();
+        authPage.authUnSucess();
     }
 
     @Test
     public void authSpacePasswordTest() {
-        new AuthPage().Auth("login2", "   ");
+        authPage.auth(AuthData.login, AuthData.spasePassword);
 
-        new AuthPage().AuthUnSucess();
+        authPage.authUnSucess();
     }
 
     @Test
     public void authTest() {
 
-        new AuthPage().Auth("login2", "password2");
+        authPage.auth(AuthData.login, AuthData.password);
 
-        onView(isRoot()).perform(new waitDisplayed(R.id.authorization_image_button, 5000));
+        authPage.authSucess();
 
-        new AuthPage().AuthSucess();
-
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
 
     private static Matcher<View> childAtPosition(

@@ -8,7 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
 public class QoutePage {
-    public void ClickQoute(String Name){
+    public void clickQoute(String Name){
         onView(withText(containsString(Name)))
                 .check(matches(isDisplayed()));
 
@@ -16,12 +16,12 @@ public class QoutePage {
                 .perform(click());
     }
 
-    public void  QuoteDesc(String Description){
+    public void  quoteDesc(String Description){
         onView(withText(containsString(Description)))
                 .check(matches(isDisplayed()));
     }
 
-    public void QoutePoint(){
+    public void qoutePoint(){
         onView(withText("Главное - жить любя")).check(matches(isDisplayed()));
     }
 }

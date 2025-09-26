@@ -39,13 +39,19 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.Locale;
 
+import ru.Data.AuthData;
+import ru.Data.NewsData;
+import ru.Data.TextButtonData;
+import ru.Page.AboutAppPage;
 import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
 import ru.Page.EditNewsPage;
 import ru.Page.MainMenuPage;
 import ru.Page.NewsPage;
+import ru.Page.QoutePage;
 import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
+import ru.iteco.fmhandroid.dto.News;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -57,48 +63,58 @@ public class MainTest {
 
     @Before
     public void login() {
-        new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
 
-        new TopMenuPage().MainMenuButton("Новости");
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
 
-        new NewsPage().NewsEditClick();
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new EditNewsPage().AddNewsClick();
+        newsPage.newsEditClick();
 
-        String today = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-        new AddEditNewsPage().AddNews("Зарплата", "Зарплата Аовы", "больше чем у вас", today);
+        editNewsPage.addNewsClick();
 
-        new TopMenuPage().MainMenuButton("Главная");
+        addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
+
+        topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
     }
 
     @After
     public void exit() {
-        new TopMenuPage().MainMenuButton("Новости");
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new NewsPage().NewsEditClick();
+        newsPage.newsEditClick();
 
-        new EditNewsPage().DeleteNews("Зарплата Аовы");
+        editNewsPage.deleteNews(NewsData.titleSalary);
 
-        new TopMenuPage().Exit();
+        topMenuPage.exit();
     }
 
+    AuthPage authPage = new AuthPage();
+    TopMenuPage topMenuPage = new TopMenuPage();
+    MainMenuPage mainMenuPage = new MainMenuPage();
+    NewsPage newsPage = new NewsPage();
+    EditNewsPage editNewsPage = new EditNewsPage();
+    AddEditNewsPage addEditNewsPage = new AddEditNewsPage();
     @Test
     public void expandTest() {
 
-        new NewsPage().TextExists("Зарплата Аовы");
+        newsPage.textExists(NewsData.titleSalary);
 
-        new MainMenuPage().ExpandButtonClick();
+        mainMenuPage.expandButtonClick();
 
 
-        new NewsPage().TextNOExists("Зарплата Аовы");
+        newsPage.textNOExists(NewsData.titleSalary);
     }
 
     @Test
     public void newsListTest() {
 
-        new NewsPage().ClickNews("Зарплата Аовы");
+       newsPage.clickNews(NewsData.titleSalary);
 
-        new NewsPage().TextExists("больше чем у вас");
+       newsPage.textExists(NewsData.descriptionSalary);
     }
 
 

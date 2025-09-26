@@ -16,6 +16,10 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+
+import ru.Data.AuthData;
+import ru.Data.NewsData;
+import ru.Data.TextButtonData;
 import ru.iteco.fmhandroid.R;
 import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
@@ -23,6 +27,7 @@ import ru.Page.EditNewsPage;
 import ru.Page.FilterPage;
 import ru.Page.NewsPage;
 import ru.Page.TopMenuPage;
+import ru.iteco.fmhandroid.dto.News;
 
 public class EditNewsTest {
     @Rule
@@ -31,118 +36,125 @@ public class EditNewsTest {
 
     @Before
     public void login() {
-        new AuthPage().Auth("login2","password2");
+        if (authPage.checkAuth()) {
 
-        new TopMenuPage().MainMenuButton("Новости");
+            ;
+        } else {
+            authPage.auth(AuthData.login, AuthData.password);
+        }
 
-        new NewsPage().NewsEditClick();
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new EditNewsPage().AddNewsClick();
+        newsPage.newsEditClick();
 
-        String today = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-        new AddEditNewsPage().AddNews("Зарплата", "Зарплата Аовы", "больше чем у вас", today);
+        editNewsPage.addNewsClick();
 
-        new EditNewsPage().EditNewsClick("Зарплата Аовы");
+        addEditNewsPage.addNews(NewsData.categorySalary, title, NewsData.descriptionSalary, NewsData.today);
+
+        editNewsPage.editNewsClick(title);
     }
 
     @After
     public void exit() {
-        new EditNewsPage().DeleteNews(title);
-        new TopMenuPage().Exit();
+        editNewsPage.deleteNews(title);
+
+        topMenuPage.exit();
     }
 
-    String tomorrowDay = new SimpleDateFormat("dd", Locale.getDefault())
-            .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1)));
-    String tomorrowData = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1)));
-    String newTitle = "Праздник в честь зп АОвы";
-    String title = "Зарплата Аовы";
-    String newNullTitle = "";
-    String newCategory = "Праздник";
-    String newDescription = "Праздник в связи с зарплатой Аовы";
-    String newNullDescription = "";
+    TopMenuPage topMenuPage = new TopMenuPage();
+    AuthPage authPage = new AuthPage();
+    NewsPage newsPage = new NewsPage();
+    EditNewsPage editNewsPage = new EditNewsPage();
+    AddEditNewsPage addEditNewsPage = new AddEditNewsPage();
+    FilterPage filterPage = new FilterPage();
+
+    String title = NewsData.titleSalary;
 
     @Test
     public void editCategoryTest(){
-        new AddEditNewsPage().Category(newCategory);
+        addEditNewsPage.category(NewsData.categoryParty);
 
         onView(withId(R.id.save_button))
                 .perform(scrollTo());
 
-        new AddEditNewsPage().ClickSaveButton();
+        addEditNewsPage.clickSaveButton();
 
-        new NewsPage().FilterClick();
+        newsPage.filterClick();
 
-        new FilterPage().FilterCategory(newCategory);
+        filterPage.filterCategory(NewsData.categoryParty);
 
-        new FilterPage().ClickFilter();
+        filterPage.clickFilter();
 
-        new NewsPage().TextExists("Зарплата Аовы");
+        newsPage.textExists(title);
     }
 
     @Test
     public void editTitleTest(){
-        title = newTitle;
+        title = NewsData.titleNotice;
+        addEditNewsPage.title(title);
 
-        new AddEditNewsPage().Title(newTitle);
+        addEditNewsPage.clickSaveButton();
 
-        new AddEditNewsPage().ClickSaveButton();
+        newsPage.textExists(title);
 
-        new NewsPage().TextExists(newTitle);
     }
 
     @Test
     public void editNullTitleTest(){
-        new AddEditNewsPage().Title(newNullTitle);
+        addEditNewsPage.title(NewsData.nullTitle);
 
-        new AddEditNewsPage().ClickSaveButton();
+        addEditNewsPage.clickSaveButton();
 
-        new NewsPage().TextExists("Сохранить");
+        newsPage.textExists("Сохранить");
 
-        new AddEditNewsPage().CancelClick();
+        addEditNewsPage.cancelClick();
+
     }
 
     @Test
     public void editDescriptionTest(){
-        new AddEditNewsPage().Description(newDescription);
+        addEditNewsPage.description(NewsData.descriptionSecondSalary);
 
-        new AddEditNewsPage().ClickSaveButton();
+        addEditNewsPage.clickSaveButton();
 
-        new NewsPage().ClickNews("Зарплата Аовы");
+        newsPage.clickNews(title);
 
-        new NewsPage().TextExists(newDescription);
+        newsPage.textExists(NewsData.descriptionSecondSalary);
+
     }
 
     @Test
     public void editNullDescriptionTest(){
-        new AddEditNewsPage().Description(newNullDescription);
+        addEditNewsPage.description(NewsData.nullDescription);
 
-        new AddEditNewsPage().ClickSaveButton();
+        addEditNewsPage.clickSaveButton();
 
-        new NewsPage().TextExists("Сохранить");
+        newsPage.textExists("Сохранить");
+
+        addEditNewsPage.cancelClick();
     }
 
     @Test
     public void editDateTest(){
-        new AddEditNewsPage().Date(tomorrowDay);
+        addEditNewsPage.date(NewsData.tomorrowDay);
 
-        new AddEditNewsPage().ClickSaveButton();
+        addEditNewsPage.clickSaveButton();
 
-        new NewsPage().ClickNews("Зарплата Аовы");
+        newsPage.clickNews(title);
 
-        new NewsPage().TextExists(tomorrowData);
+        newsPage.textExists(NewsData.tomorrowData);
     }
 
     @Test
     public void editActivionTest(){
-        new AddEditNewsPage().ActivionButton();
+        addEditNewsPage.activionButton();
 
-        new AddEditNewsPage().ClickSaveButton();
+        addEditNewsPage.clickSaveButton();
 
-        new TopMenuPage().MainMenuButton("Новости");
+        topMenuPage.mainMenuButton(TextButtonData.newsButton);
 
-        new NewsPage().TextNOExists("Зарплата Аовы");
+        newsPage.noText(title);
 
-        new NewsPage().NewsEditClick();
+        newsPage.newsEditClick();
     }
 }
