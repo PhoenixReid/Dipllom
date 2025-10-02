@@ -72,4 +72,38 @@ public class AddNewsTest {
         editNewsPage.deleteNews(NewsData.titleSalary);
     }
 
+    @Test
+    public void addNewsNoTitleTest(){
+        addEditNewsPage.addNews(NewsData.categorySalary, NewsData.nullTitle, NewsData.descriptionSalary, NewsData.today);
+
+        newsPage.textExists("Сохранить");
+
+        addEditNewsPage.cancelClick();
+    }
+
+    @Test
+    public void addNewsNoDescTest(){
+        addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.nullDescription, NewsData.today);
+
+        newsPage.textExists("Сохранить");
+
+        addEditNewsPage.cancelClick();
+    }
+
+    @Test
+    public void addNewsNoData(){
+
+        addEditNewsPage.category(NewsData.categorySalary);
+
+        addEditNewsPage.title(NewsData.titleSalary);
+
+        addEditNewsPage.description(NewsData.descriptionSalary);
+
+        addEditNewsPage.clickSaveButton();
+
+        newsPage.textExists("Сохранить");
+
+        addEditNewsPage.cancelClick();
+    }
+
 }

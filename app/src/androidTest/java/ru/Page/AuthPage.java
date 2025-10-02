@@ -24,7 +24,9 @@ public class AuthPage {
     TopMenuPage topMenuPage = new TopMenuPage();
 
     public void auth(String login, String password){
+
         onView(isRoot()).perform(new waitDisplayed(R.id.login_text_input_layout, 5000));
+
 
         onView(allOf(withHint("Логин"), isDescendantOfA(withId(R.id.login_text_input_layout))))
                 .perform(replaceText(login));

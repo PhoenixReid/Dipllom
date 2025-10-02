@@ -27,6 +27,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
+import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Story;
+import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
 import ru.Data.TextButtonData;
 import ru.Page.AboutAppPage;
@@ -38,7 +43,8 @@ import ru.Page.TopMenuPage;
 import ru.iteco.fmhandroid.R;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AllureAndroidJUnit4.class)
+@Epic("Проверка переходов.")
 public class TransitionQuoteTest {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -46,18 +52,20 @@ public class TransitionQuoteTest {
 
     @Before
     public void login() {
+        Allure.step("Проверка авторизованного аккаунта.");
         if (authPage.checkAuth()) {
 
             ;
         } else {
             authPage.auth(AuthData.login, AuthData.password);
         }
-
+        Allure.step("Выполняем переход на страницу Цитаты.");
        topMenuPage.qoute();
     }
 
     @After
     public void exit() {
+        Allure.step("Выполняем выход из аккаунта.");
         topMenuPage.exit();
     }
 
@@ -69,25 +77,34 @@ public class TransitionQuoteTest {
     NewsPage newsPage = new NewsPage();
 
     @Test
+    @DisplayName("Переход на страницу Новости.")
+    @Story("Переходы со страницы Цитаты.")
     public void newsTest() {
+        Allure.step("Выполняем переход на страницу Новости.");
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
-
+        Allure.step("Проверка перехода на страницу Новости.");
         newsPage.pointNews();
     }
 
     @Test
+    @DisplayName("Переход на страницу О приложении.")
+    @Story("Переходы со страницы Цитаты.")
     public void aboutAppTest() {
+        Allure.step("Выполняем переход на страницу О приложении.");
         topMenuPage.mainMenuButton(TextButtonData.aboutAppButton);
-
+        Allure.step("Проверка перехода на страницу О приложении.");
         aboutAppPage.aboutAppPoint();
-
+        Allure.step("Выходим со страницы о приложении.");
         aboutAppPage.aboutAppExit();
     }
 
     @Test
+    @DisplayName("Переход на страницу Главная.")
+    @Story("Переходы со страницы Цитаты.")
     public void mainTest() {
+        Allure.step("Выполняем переход на страницу Главная.");
         topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
-
+        Allure.step("Проверка перехода на страницу Главная.");
         mainMenuPage.pointMain();
     }
 

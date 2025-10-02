@@ -1,32 +1,12 @@
 package ru.iteco.fmhandroid.ui;
 
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static androidx.test.espresso.matcher.ViewMatchers.withHint;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -35,84 +15,108 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.not;
 
-import ru.iteco.fmhandroid.R;
-import ru.Page.AuthPage;
-import ru.utils.waitDisplayed;
-import ru.Page.TopMenuPage;
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
+import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Step;
+import io.qameta.allure.kotlin.Story;
+import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
+import ru.Page.AuthPage;
+import ru.Page.TopMenuPage;
+
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AllureAndroidJUnit4.class)
+@Epic("Проверка авторизации.")
 public class AuthTest {
 
     @Rule
-    public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(AppActivity.class);
-
+    public ActivityScenarioRule<AppActivity> activityRule = new ActivityScenarioRule<>(AppActivity.class);
 
 
     @Before
     public void setUp() {
-
-        if (authPage.checkAuth()){
+        Allure.step("Проверка авторизированного аккаунта.");
+        if (authPage.checkAuth()) {
             topMenuPage.exit();
         }
+
     }
 
-
+    private View decorView;
     AuthPage authPage = new AuthPage();
     TopMenuPage topMenuPage = new TopMenuPage();
 
     @Test
+    @DisplayName("Невалидный логин.")
+    @Story("Вводим невалидные данные.")
     public void authUnLoginTest() {
+        Allure.step("Вводим невалидный логин и валидный пароль.");
         authPage.auth(AuthData.unLogin, AuthData.password);
-
+        Allure.step("Проверка: авторизация завершается с ошибкой.");
         authPage.authUnSucess();
     }
 
     @Test
+    @DisplayName("Невалидный пароль.")
+    @Story("Вводим невалидные данные.")
     public void authUnPasswordTest() {
+        Allure.step("Вводим валидный логин и невалидный пароль.");
         authPage.auth(AuthData.login, AuthData.unPassword);
-
+        Allure.step("Проверка: авторизация завершается с ошибкой.");
         authPage.authUnSucess();
     }
 
     @Test
+    @DisplayName("Пустой логин.")
+    @Story("Вводим невалидные данные.")
     public void authNullLoginTest() {
+        Allure.step("Вводим валидный пароль.");
         authPage.auth(AuthData.nullLogin, AuthData.password);
-
+        Allure.step("Проверка: авторизация завершается с ошибкой.");
         authPage.authUnSucess();
     }
 
     @Test
+    @DisplayName("Пустой пароль.")
+    @Story("Вводим невалидные данные.")
     public void authNullPasswordTest() {
+        Allure.step("Вводим валидный логин.");
         authPage.auth(AuthData.login, AuthData.nullPassword);
-
+        Allure.step("Проверка: авторизация завершается с ошибкой.");
         authPage.authUnSucess();
     }
 
     @Test
+    @DisplayName("Логин из пробелов.")
+    @Story("Вводим невалидные данные.")
     public void authSpaceLoginTest() {
+        Allure.step("Вводим логин из пробелов и валидный пароль.");
         authPage.auth(AuthData.spaseLogin, AuthData.password);
-
+        Allure.step("Проверка: авторизация завершается с ошибкой.");
         authPage.authUnSucess();
     }
 
     @Test
+    @DisplayName("Пароль из пробелов.")
+    @Story("Вводим невалидные данные.")
     public void authSpacePasswordTest() {
+        Allure.step("Вводим валидный логин и пароль из пробелов.");
         authPage.auth(AuthData.login, AuthData.spasePassword);
-
+        Allure.step("Проверка: авторизация завершается с ошибкой.");
         authPage.authUnSucess();
     }
 
     @Test
+    @DisplayName("Валиные данные")
+    @Story("Вводим валидные данные")
     public void authTest() {
-
+        Allure.step("Вводим валидный логин и валидный пароль.");
         authPage.auth(AuthData.login, AuthData.password);
-
+        Allure.step("Выполняем успешную авторизацию с валидными учётными данными.");
         authPage.authSucess();
-
+        Allure.step("Проверяем, что пользователь успешно вышел.");
         topMenuPage.exit();
     }
 
