@@ -39,6 +39,11 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.Locale;
 
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
+import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Story;
+import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
 import ru.Data.NewsData;
 import ru.Data.TextButtonData;
@@ -54,7 +59,8 @@ import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.dto.News;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@Epic("Jтображения новостей.")
+@RunWith(AllureAndroidJUnit4.class)
 public class MainTest {
 
     @Rule
@@ -63,32 +69,34 @@ public class MainTest {
 
     @Before
     public void login() {
+        Allure.step("Проверка авторизованного аккаунта.");
         if (authPage.checkAuth()) {
 
             ;
         } else {
             authPage.auth(AuthData.login, AuthData.password);
         }
-
+        Allure.step("Переходим на страницу Новости.");
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
-
+        Allure.step("Переходим на страницу изменения новости.");
         newsPage.newsEditClick();
-
+        Allure.step("Переходим на страницу добавления/изменения новости.");
         editNewsPage.addNewsClick();
-
+        Allure.step("Добавляем новость.");
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
-
+        Allure.step("Переходим на страницу Главная.");
         topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
     }
 
     @After
     public void exit() {
+        Allure.step("Переходим на страницу Новости");
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
-
+        Allure.step("Переходим на страницу изменения новостей.");
         newsPage.newsEditClick();
-
+        Allure.step("Удаляем новость.");
         editNewsPage.deleteNews(NewsData.titleSalary);
-
+        Allure.step("Выполняем выход из аккаунта.");
         topMenuPage.exit();
     }
 
@@ -99,21 +107,24 @@ public class MainTest {
     EditNewsPage editNewsPage = new EditNewsPage();
     AddEditNewsPage addEditNewsPage = new AddEditNewsPage();
     @Test
+    @Story("Проверка отображения на главной страницу")
+    @DisplayName("Скрытие новостей")
     public void expandTest() {
-
+        Allure.step("Проверяем наличие новости на странице Главная.");
         newsPage.textExists(NewsData.titleSalary);
-
+        Allure.step("Скравыем новости.");
         mainMenuPage.expandButtonClick();
-
-
+        Allure.step("Проверяем, что новость не видна.");
         newsPage.textNOExists(NewsData.titleSalary);
     }
 
     @Test
+    @Story("Проверка отображения на главной страницу")
+    @DisplayName("Првоерка описания новости")
     public void newsListTest() {
-
+        Allure.step("раскрываем новость.");
        newsPage.clickNews(NewsData.titleSalary);
-
+        Allure.step("Проверяем описание новости.");
        newsPage.textExists(NewsData.descriptionSalary);
     }
 
