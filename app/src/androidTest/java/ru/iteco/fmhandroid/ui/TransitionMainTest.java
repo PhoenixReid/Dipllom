@@ -70,7 +70,6 @@ public class TransitionMainTest {
 
     @Before
     public void login() {
-        Allure.step("Проверка авторизованного аккаунта.");
         if (authPage.checkAuth()) {
 
             ;
@@ -82,7 +81,6 @@ public class TransitionMainTest {
 
     @After
     public void exit() {
-        Allure.step("Выполняем выход из аккаунта.");
         topMenuPage.exit();
     }
 
@@ -95,9 +93,8 @@ public class TransitionMainTest {
     @DisplayName("Переход на страницу Цитаты.")
     @Story("Переходы со страницы Главная.")
     public void quoteTest() {
-        Allure.step("Выполняем переход на страницу Цитаты.");
        topMenuPage.qoute();
-        Allure.step("Проверка перехода на страницу Цитаты.");
+
        qoutePage.qoutePoint();
     }
 
@@ -105,9 +102,7 @@ public class TransitionMainTest {
     @DisplayName("Переход на страницу Новости.")
     @Story("Переходы со страницы Главная.")
     public void newsTest() {
-        Allure.step("Выполняем переход на страницу Новости.");
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
-        Allure.step("Проверка перехода на страницу Новости.");
         newsPage.pointNews();
     }
 
@@ -115,9 +110,8 @@ public class TransitionMainTest {
     @DisplayName("Переход на страницу Новости через кнопку ВСЕ НОВОСТИ.")
     @Story("Переходы со страницы Главная.")
     public void allNewsTest() {
-        Allure.step("Выполняем переход на страницу Новости через ВСЕ НОВОСТИ.");
         new MainMenuPage().allNews();
-        Allure.step("Проверка перехода на страницу Новости.");
+
         new NewsPage().pointNews();
     }
 
@@ -125,30 +119,12 @@ public class TransitionMainTest {
     @DisplayName("Переход на страницу О приложении.")
     @Story("Переходы со страницы Главная.")
     public void aboutAppTest() {
-        Allure.step("Выполняем переход на страницу О приложении.");
         new TopMenuPage().mainMenuButton(TextButtonData.aboutAppButton);
-        Allure.step("Проверка перехода на страницу О приложении.");
+
         new AboutAppPage().aboutAppPoint();
-        Allure.step("Выходим со страницы о приложении.");
+
         new AboutAppPage().aboutAppExit();
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
 
-        return new TypeSafeMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(View item) {
-                return false;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-
-        };
-    }
 }

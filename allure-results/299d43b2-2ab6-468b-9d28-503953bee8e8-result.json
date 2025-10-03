@@ -1,7 +1,7 @@
 {
     "name": "Пустой пароль.",
-    "start": 1759389191819,
-    "stop": 1759389198365,
+    "start": 1759478635619,
+    "stop": 1759478642142,
     "stage": "finished",
     "description": null,
     "descriptionHtml": null,
@@ -9,9 +9,9 @@
     "statusDetails": null,
     "steps": [
         {
-            "name": "Проверка авторизированного аккаунта.",
-            "start": 1759389191984,
-            "stop": 1759389191984,
+            "name": "Проверяем загрузку кнопки2131230842",
+            "start": 1759478635827,
+            "stop": 1759478635827,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -25,9 +25,9 @@
             ]
         },
         {
-            "name": "Вводим валидный логин.",
-            "start": 1759389197503,
-            "stop": 1759389197503,
+            "name": "Возвращаем false",
+            "start": 1759478641261,
+            "stop": 1759478641261,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -41,9 +41,57 @@
             ]
         },
         {
-            "name": "Проверка: авторизация завершается с ошибкой.",
-            "start": 1759389197808,
-            "stop": 1759389197808,
+            "name": "Проверяем наличие поля 2131231037",
+            "start": 1759478641261,
+            "stop": 1759478641261,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Ddjlbv d gjkt Kjuby login2",
+            "start": 1759478641264,
+            "stop": 1759478641264,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Вводим в поле пароль",
+            "start": 1759478641274,
+            "stop": 1759478641274,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажимаем на кнопку2131230969",
+            "start": 1759478641283,
+            "stop": 1759478641283,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -61,7 +109,7 @@
     ],
     "parameters": [
     ],
-    "uuid": "57d866e2-03eb-4f49-bca1-1d1a1277ae65",
+    "uuid": "299d43b2-2ab6-468b-9d28-503953bee8e8",
     "historyId": "d4bd1b0acc7dca3c61c690e19d4f26b2",
     "fullName": "ru.iteco.fmhandroid.ui.AuthTest.authNullPasswordTest",
     "labels": [
@@ -87,7 +135,7 @@
         },
         {
             "name": "thread",
-            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(840)"
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(841)"
         },
         {
             "name": "framework",

@@ -3,16 +3,23 @@ package ru.iteco.fmhandroid.ui;
 import android.icu.text.SimpleDateFormat;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.filters.LargeTest;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.Description;
+import org.junit.runner.RunWith;
 
 import java.util.Date;
 import java.util.Locale;
 
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
+import io.qameta.allure.kotlin.Allure;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Story;
+import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
 import ru.Data.NewsData;
 import ru.Data.TextButtonData;
@@ -23,6 +30,10 @@ import ru.Page.NewsPage;
 import ru.Page.QoutePage;
 import ru.Page.TopMenuPage;
 
+
+@LargeTest
+@Epic("Создание новости.")
+@RunWith(AllureAndroidJUnit4.class)
 public class AddNewsTest {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -46,6 +57,7 @@ public class AddNewsTest {
 
     @After
     public void exit() {
+
         topMenuPage.exit();
     }
 
@@ -56,9 +68,11 @@ public class AddNewsTest {
     EditNewsPage editNewsPage = new EditNewsPage();
     AddEditNewsPage addEditNewsPage = new AddEditNewsPage();
 
-
+    @DisplayName("Создание валидной новости.")
+    @Story("Создание валидной новости.")
     @Test
     public void addNewsTest(){
+
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
 
         newsPage.textExists(NewsData.titleSalary);
@@ -71,9 +85,11 @@ public class AddNewsTest {
 
         editNewsPage.deleteNews(NewsData.titleSalary);
     }
-
+    @DisplayName("Создание невалидной новости.")
+    @Story("Создание новости с невалидным заголовком.")
     @Test
     public void addNewsNoTitleTest(){
+
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.nullTitle, NewsData.descriptionSalary, NewsData.today);
 
         newsPage.textExists("Сохранить");
@@ -81,8 +97,11 @@ public class AddNewsTest {
         addEditNewsPage.cancelClick();
     }
 
+    @DisplayName("Создание невалидной новости.")
+    @Story("Создание новости с невалидным заголовком.")
     @Test
     public void addNewsNoDescTest(){
+
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.nullDescription, NewsData.today);
 
         newsPage.textExists("Сохранить");
@@ -90,9 +109,10 @@ public class AddNewsTest {
         addEditNewsPage.cancelClick();
     }
 
+    @DisplayName("Создание невалидной новости.")
+    @Story("Создание новости с невалидной датой.")
     @Test
     public void addNewsNoData(){
-
         addEditNewsPage.category(NewsData.categorySalary);
 
         addEditNewsPage.title(NewsData.titleSalary);

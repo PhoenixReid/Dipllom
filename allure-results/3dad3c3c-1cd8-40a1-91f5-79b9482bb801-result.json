@@ -1,7 +1,7 @@
 {
-    "name": "Переход на страницу О приложении.",
-    "start": 1759391879539,
-    "stop": 1759391888431,
+    "name": "Логин из пробелов.",
+    "start": 1759478593643,
+    "stop": 1759478601002,
     "stage": "finished",
     "description": null,
     "descriptionHtml": null,
@@ -9,9 +9,9 @@
     "statusDetails": null,
     "steps": [
         {
-            "name": "Проверка авторизованного аккаунта.",
-            "start": 1759391879728,
-            "stop": 1759391879728,
+            "name": "Проверяем загрузку кнопки2131230842",
+            "start": 1759478594189,
+            "stop": 1759478594189,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -25,9 +25,9 @@
             ]
         },
         {
-            "name": "Выполняем переход на страницу О приложении.",
-            "start": 1759391885502,
-            "stop": 1759391885502,
+            "name": "Возвращаем false",
+            "start": 1759478599764,
+            "stop": 1759478599764,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -41,9 +41,9 @@
             ]
         },
         {
-            "name": "Проверка перехода на страницу О приложении.",
-            "start": 1759391886744,
-            "stop": 1759391886744,
+            "name": "Проверяем наличие поля 2131231037",
+            "start": 1759478599764,
+            "stop": 1759478599764,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -57,9 +57,9 @@
             ]
         },
         {
-            "name": "Выходим со страницы о приложении.",
-            "start": 1759391886751,
-            "stop": 1759391886751,
+            "name": "Ddjlbv d gjkt Kjuby   ",
+            "start": 1759478599768,
+            "stop": 1759478599768,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -73,9 +73,25 @@
             ]
         },
         {
-            "name": "Выполняем выход из аккаунта.",
-            "start": 1759391887092,
-            "stop": 1759391887092,
+            "name": "Вводим в поле парольpassword2",
+            "start": 1759478599785,
+            "stop": 1759478599785,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        },
+        {
+            "name": "Нажимаем на кнопку2131230969",
+            "start": 1759478599810,
+            "stop": 1759478599811,
             "stage": "finished",
             "description": null,
             "descriptionHtml": null,
@@ -93,9 +109,9 @@
     ],
     "parameters": [
     ],
-    "uuid": "20f0cd75-6f23-475f-adb5-b5ce8b2cf55b",
-    "historyId": "f9ea48d3c682035be09ddacef88e9e6",
-    "fullName": "ru.iteco.fmhandroid.ui.TransitionMainTest.aboutAppTest",
+    "uuid": "3dad3c3c-1cd8-40a1-91f5-79b9482bb801",
+    "historyId": "bcc7ff142a5765aaed9193374b224a7",
+    "fullName": "ru.iteco.fmhandroid.ui.AuthTest.authSpaceLoginTest",
     "labels": [
         {
             "name": "package",
@@ -103,15 +119,15 @@
         },
         {
             "name": "testClass",
-            "value": "ru.iteco.fmhandroid.ui.TransitionMainTest"
+            "value": "ru.iteco.fmhandroid.ui.AuthTest"
         },
         {
             "name": "testMethod",
-            "value": "aboutAppTest"
+            "value": "authSpaceLoginTest"
         },
         {
             "name": "suite",
-            "value": "ru.iteco.fmhandroid.ui.TransitionMainTest"
+            "value": "ru.iteco.fmhandroid.ui.AuthTest"
         },
         {
             "name": "host",
@@ -119,7 +135,7 @@
         },
         {
             "name": "thread",
-            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(840)"
+            "value": "Instr: androidx.test.runner.AndroidJUnitRunner(841)"
         },
         {
             "name": "framework",
@@ -131,11 +147,11 @@
         },
         {
             "name": "story",
-            "value": "Переходы со страницы Главная."
+            "value": "Вводим невалидные данные."
         },
         {
             "name": "epic",
-            "value": "Проверка переходов."
+            "value": "Проверка авторизации."
         }
     ]
 }

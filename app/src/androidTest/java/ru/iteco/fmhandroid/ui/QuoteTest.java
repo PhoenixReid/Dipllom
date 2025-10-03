@@ -62,20 +62,20 @@ public class QuoteTest {
 
     @Before
     public void login() {
-        Allure.step("Проверка авторизованного аккаунта.");
+
         if (authPage.checkAuth()) {
 
             ;
         } else {
             authPage.auth(AuthData.login, AuthData.password);
         }
-        Allure.step("Выполняем переход на страницу Цитаты.");
+
         topMenuPage.qoute();
     }
 
     @After
     public void exit() {
-        Allure.step("Выполняем выход из аккаунта.");
+
         topMenuPage.exit();
     }
 
@@ -87,28 +87,9 @@ public class QuoteTest {
     @DisplayName("Проверка раскрытия цитаты.")
     @Story("Проверка раскрытия цитат.")
     public void quoteTest() {
-        Allure.step("Раскрываем цитату.");
+
         qoutePage.clickQoute(QouteData.titleQoute);
-        Allure.step("Сравниваем описание цитаты.");
+
         qoutePage.quoteDesc(QouteData.descriptionQoute);
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 }

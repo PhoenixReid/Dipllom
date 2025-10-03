@@ -1,27 +1,17 @@
 package ru.iteco.fmhandroid.ui;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import android.icu.text.SimpleDateFormat;
-
-import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiDevice;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Story;
+import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
 import ru.Data.NewsData;
 import ru.Data.TextButtonData;
@@ -29,11 +19,11 @@ import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
 import ru.Page.EditNewsPage;
 import ru.Page.FilterPage;
-import ru.Page.MainMenuPage;
 import ru.Page.NewsPage;
 import ru.Page.TopMenuPage;
-import ru.iteco.fmhandroid.R;
 
+@RunWith(AllureAndroidJUnit4.class)
+@Epic("Фильтр")
 public class FilterTest {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -90,6 +80,8 @@ public class FilterTest {
     FilterPage filterPage = new FilterPage();
 
     @Test
+    @Story("Фильтр")
+    @DisplayName("Фильтр без даты")
     public void filterNoDatatest(){
         filterPage.filterCategory(NewsData.categorySalary);
 
@@ -103,6 +95,8 @@ public class FilterTest {
     }
 
     @Test
+    @Story("Фильтр")
+    @DisplayName("Фильтр с датой")
     public void filterTest(){
         filterPage.filterCategory(NewsData.categorySalary);
 

@@ -59,7 +59,7 @@ import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.dto.News;
 
 @LargeTest
-@Epic("Jтображения новостей.")
+
 @RunWith(AllureAndroidJUnit4.class)
 public class MainTest {
 
@@ -69,34 +69,34 @@ public class MainTest {
 
     @Before
     public void login() {
-        Allure.step("Проверка авторизованного аккаунта.");
+
         if (authPage.checkAuth()) {
 
             ;
         } else {
             authPage.auth(AuthData.login, AuthData.password);
         }
-        Allure.step("Переходим на страницу Новости.");
+
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
-        Allure.step("Переходим на страницу изменения новости.");
+
         newsPage.newsEditClick();
-        Allure.step("Переходим на страницу добавления/изменения новости.");
+
         editNewsPage.addNewsClick();
-        Allure.step("Добавляем новость.");
+
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
-        Allure.step("Переходим на страницу Главная.");
+
         topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
     }
 
     @After
     public void exit() {
-        Allure.step("Переходим на страницу Новости");
+
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
-        Allure.step("Переходим на страницу изменения новостей.");
+
         newsPage.newsEditClick();
-        Allure.step("Удаляем новость.");
+
         editNewsPage.deleteNews(NewsData.titleSalary);
-        Allure.step("Выполняем выход из аккаунта.");
+
         topMenuPage.exit();
     }
 
@@ -110,11 +110,10 @@ public class MainTest {
     @Story("Проверка отображения на главной страницу")
     @DisplayName("Скрытие новостей")
     public void expandTest() {
-        Allure.step("Проверяем наличие новости на странице Главная.");
+
         newsPage.textExists(NewsData.titleSalary);
-        Allure.step("Скравыем новости.");
+
         mainMenuPage.expandButtonClick();
-        Allure.step("Проверяем, что новость не видна.");
         newsPage.textNOExists(NewsData.titleSalary);
     }
 
@@ -122,29 +121,10 @@ public class MainTest {
     @Story("Проверка отображения на главной страницу")
     @DisplayName("Првоерка описания новости")
     public void newsListTest() {
-        Allure.step("раскрываем новость.");
        newsPage.clickNews(NewsData.titleSalary);
-        Allure.step("Проверяем описание новости.");
        newsPage.textExists(NewsData.descriptionSalary);
     }
 
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
 
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 }

@@ -20,23 +20,25 @@ import androidx.test.uiautomator.UiDevice;
 
 import java.util.Date;
 
+import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
 
 public class AddEditNewsPage {
 
     public void category(String Category){
+        Allure.step("Проверяем наличие поля" + R.id.news_item_category_text_auto_complete_text_view);
         onView(isRoot()).perform(new waitDisplayed(R.id.news_item_category_text_auto_complete_text_view, 5000));
-
+        Allure.step("Нажимаем на поле" + R.id.news_item_category_text_auto_complete_text_view);
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .perform(click());
-
+        Allure.step("Ждём подзагрузку категорий");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        Allure.step("Выбираем категорию " + Category);
         onView(withText(Category))
                 .inRoot(isPlatformPopup())
                 .check(matches(isDisplayed()))
@@ -47,47 +49,54 @@ public class AddEditNewsPage {
     }
 
     public void title(String title){
+        Allure.step("Вводим в поле " + R.id.news_item_title_text_input_edit_text + " заголовок " + title);
         onView(withId(R.id.news_item_title_text_input_edit_text))
                 .perform(replaceText(title));
     }
 
 
     public void date(String Data){
+        Allure.step("Нажимаем на поле " + R.id.news_item_publish_date_text_input_edit_text);
         onView(withId(R.id.news_item_publish_date_text_input_edit_text))
                 .perform(click());
-
+        Allure.step("Ожидаем загрузку кнопки" + android.R.id.button1);
         onView(isRoot()).perform(new waitDisplayed(android.R.id.button1, 5000));
-
+        Allure.step("Нажимаем на дату " + Data);
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.findObject(By.text(Data)).click();
-
+        Allure.step("Нажимаем на кнопку ОК");
         onView(withText("ОК"))
                 .inRoot(isDialog())
                 .perform(click());
     }
 
     public void time(){
+        Allure.step("Выбираем время");
         onView(withId(R.id.news_item_publish_time_text_input_edit_text))
                 .perform(click());
-
+        Allure.step("Нажимаем на кнопку Ок");
         onView(withText("ОК"))
                 .inRoot(isDialog())
                 .perform(click());
     }
 
     public void description(String description){
+        Allure.step("Вводим в поле описания текст " + description);
         onView(withId(R.id.news_item_description_text_input_edit_text))
                 .perform(replaceText(description), closeSoftKeyboard());
 
     }
 
     public void clickSaveButton(){
+        Allure.step("Првоеряем наличие кнопки" + R.id.save_button) ;
         onView(isRoot()).perform(new waitDisplayed(R.id.save_button, 5000));
+        Allure.step("Нажимаем на кнопку" + R.id.save_button);
         onView(withId(R.id.save_button))
                 .perform(click());
     }
 
     public void activionButton(){
+        Allure.step("ППереключаем кнопку " + R.id.switcher);
         onView(withId(R.id.switcher))
                 .perform(click());
     }

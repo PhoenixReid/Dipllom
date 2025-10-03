@@ -4,31 +4,31 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import android.icu.text.SimpleDateFormat;
-
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.util.Date;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
+import io.qameta.allure.android.runners.AllureAndroidJUnit4;
+import io.qameta.allure.kotlin.Epic;
+import io.qameta.allure.kotlin.Story;
+import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
 import ru.Data.NewsData;
 import ru.Data.TextButtonData;
-import ru.iteco.fmhandroid.R;
 import ru.Page.AddEditNewsPage;
 import ru.Page.AuthPage;
 import ru.Page.EditNewsPage;
 import ru.Page.FilterPage;
 import ru.Page.NewsPage;
 import ru.Page.TopMenuPage;
-import ru.iteco.fmhandroid.dto.News;
+import ru.iteco.fmhandroid.R;
 
+@Epic("Изменение новости ")
+@RunWith(AllureAndroidJUnit4.class)
 public class EditNewsTest {
     @Rule
     public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
@@ -71,6 +71,8 @@ public class EditNewsTest {
     String title = NewsData.titleSalary;
 
     @Test
+    @Story("Изменение на валидные данные")
+    @DisplayName("ИЗменение категории")
     public void editCategoryTest(){
         addEditNewsPage.category(NewsData.categoryParty);
 
@@ -89,6 +91,8 @@ public class EditNewsTest {
     }
 
     @Test
+    @Story("Изменение на валидные данные")
+    @DisplayName("Изменение заголовка")
     public void editTitleTest(){
         title = NewsData.titleNotice;
         addEditNewsPage.title(title);
@@ -100,6 +104,8 @@ public class EditNewsTest {
     }
 
     @Test
+    @Story("Изменение на невалидные данные")
+    @DisplayName("Изменение заголовка на пустое значение")
     public void editNullTitleTest(){
         addEditNewsPage.title(NewsData.nullTitle);
 
@@ -112,6 +118,8 @@ public class EditNewsTest {
     }
 
     @Test
+    @Story("Изменение на валидные данные")
+    @DisplayName("Изменение описания")
     public void editDescriptionTest(){
         addEditNewsPage.description(NewsData.descriptionSecondSalary);
 
@@ -124,6 +132,8 @@ public class EditNewsTest {
     }
 
     @Test
+    @Story("Изменение на невалидные данные")
+    @DisplayName("Изменение описания на пустое значение")
     public void editNullDescriptionTest(){
         addEditNewsPage.description(NewsData.nullDescription);
 
@@ -135,6 +145,8 @@ public class EditNewsTest {
     }
 
     @Test
+    @Story("Изменение на валидные данные")
+    @DisplayName("Изменение даты")
     public void editDateTest(){
         addEditNewsPage.date(NewsData.tomorrowDay);
 
@@ -146,6 +158,8 @@ public class EditNewsTest {
     }
 
     @Test
+    @Story("Изменение на валидные данные")
+    @DisplayName("Изменение кнопки активно")
     public void editActivionTest(){
         addEditNewsPage.activionButton();
 

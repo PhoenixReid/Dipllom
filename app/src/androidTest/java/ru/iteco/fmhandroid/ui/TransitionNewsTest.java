@@ -67,20 +67,20 @@ public class TransitionNewsTest {
 
     @Before
     public void login() {
-        Allure.step("Проверка авторизованного аккаунта.");
+
         if (authPage.checkAuth()) {
 
             ;
         } else {
             authPage.auth(AuthData.login, AuthData.password);
         }
-        Allure.step("Выполняем переход на страницу Новости.");
+
         topMenuPage.mainMenuButton(TextButtonData.newsButton);
     }
 
     @After
     public void exit() {
-        Allure.step("Выполняем выход из аккаунта.");
+
         topMenuPage.exit();
     }
 
@@ -94,9 +94,9 @@ public class TransitionNewsTest {
     @DisplayName("Переход на страницу Главная.")
     @Story("Переходы со страницы Новости.")
     public void mainTest() {
-        Allure.step("Выполняем переход на страницу Главная.");
+
         topMenuPage.mainMenuButton(TextButtonData.mainMenuButton);
-        Allure.step("Проверка перехода на страницу Главная.");
+
         mainMenuPage.pointMain();
     }
 
@@ -104,9 +104,9 @@ public class TransitionNewsTest {
     @DisplayName("Переход на страницу Цитаты.")
     @Story("Переходы со страницы Новости.")
     public void quoteTest() {
-        Allure.step("Выполняем переход на страницу Цитаты.");
+
         topMenuPage.qoute();
-        Allure.step("Проверка перехода на страницу Цитаты.");
+
         qoutePage.qoutePoint();
     }
 
@@ -114,30 +114,16 @@ public class TransitionNewsTest {
     @DisplayName("Переход на страницу О приложении.")
     @Story("Переходы со страницы Новости.")
     public void aboutAppTest() {
-        Allure.step("Выполняем переход на страницу О приложении.");
+
         topMenuPage.mainMenuButton(TextButtonData.aboutAppButton);
-        Allure.step("Проверка перехода на страницу О приложении.");
+
         aboutAppPage.aboutAppPoint();
-        Allure.step("Выходим со страницы О приложении.");
+
         aboutAppPage.aboutAppExit();
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            protected boolean matchesSafely(View item) {
-                return false;
-            }
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
 
 
-        };
+
     }
-}
+
