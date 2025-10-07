@@ -55,11 +55,11 @@ public class AddNewsTest {
         editNewsPage.addNewsClick();
     }
 
-    @After
-    public void exit() {
-
-        topMenuPage.exit();
-    }
+//    @After
+//    public void exit() {
+//
+//        topMenuPage.exit();
+//    }
 
 
     TopMenuPage topMenuPage = new TopMenuPage();

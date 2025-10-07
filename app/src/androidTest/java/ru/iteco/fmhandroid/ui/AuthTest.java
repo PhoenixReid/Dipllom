@@ -1,11 +1,19 @@
 package ru.iteco.fmhandroid.ui;
 
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import android.view.View;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,11 +38,16 @@ public class AuthTest {
 
     @Before
     public void setUp() {
+        activityRule.getScenario().onActivity(new ActivityScenario.ActivityAction<AppActivity>() {
+            @Override
+            public void perform(AppActivity activity) { // ← вот здесь!
+                decorView = activity.getWindow().getDecorView();
+            }
+        });
 
         if (authPage.checkAuth()) {
             topMenuPage.exit();
         }
-
     }
 
     private View decorView;
@@ -46,8 +59,11 @@ public class AuthTest {
     @Story("Вводим невалидные данные.")
     public void authUnLoginTest() {
 
-        authPage.auth(AuthData.unLogin, AuthData.password);
 
+        authPage.auth(AuthData.unLogin, AuthData.password);
+        onView(withText("Что-то пошло не так. Попробуйте похднее."))
+                .inRoot(withDecorView(Matchers.not(decorView)))// Here you use decorView
+                .check(matches(isDisplayed()));
         authPage.authUnSucess();
     }
 
