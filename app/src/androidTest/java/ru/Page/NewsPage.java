@@ -2,9 +2,11 @@ package ru.Page;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -12,6 +14,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
+
+import android.widget.TextView;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
@@ -26,7 +30,9 @@ public class NewsPage {
 
     public void clickNews(String Name){
         Allure.step("Раскрываем новость с заголовком " + Name);
-        onView(withText(Name)).perform(click());
+        onView(withText(Name))
+                .perform(scrollTo())
+                .perform(click());
     }
 
     public void newsEditClick(){
@@ -37,10 +43,18 @@ public class NewsPage {
                 .perform(click());
     }
 
-    public void textExists(String text){
+    public void textExistsDisplaye(String text){
         Allure.step("Проверяем наличие текста " + text);
         onView(withText(text)).check(matches(isDisplayed()));
     }
+
+    public void textExists(String text){
+        Allure.step("Проверяем наличие текста " + text);
+        onView(withText(text))
+                .perform(scrollTo())          // прокручиваем до элемента
+                .check(matches(isDisplayed())); // и проверяем, что он виден
+    }
+
 
     public void textNOExists(String text){
         Allure.step("Проверяем отсутсствие текста " + text);

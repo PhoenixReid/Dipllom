@@ -61,7 +61,7 @@ public class AuthTest {
 
 
         authPage.auth(AuthData.unLogin, AuthData.password);
-        onView(withText("Что-то пошло не так. Попробуйте похднее."))
+        onView(withText("Что-то пошло не так. Попробуйте позднее."))
                 .inRoot(withDecorView(Matchers.not(decorView)))// Here you use decorView
                 .check(matches(isDisplayed()));
         authPage.authUnSucess();

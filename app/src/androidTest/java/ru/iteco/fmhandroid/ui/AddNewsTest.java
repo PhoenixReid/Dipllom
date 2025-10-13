@@ -83,7 +83,7 @@ public class AddNewsTest {
 
         newsPage.textExists(NewsData.todayDate);
 
-        editNewsPage.deleteNews(NewsData.titleSalary);
+//        editNewsPage.deleteNews(NewsData.titleSalary);
     }
     @DisplayName("Создание невалидной новости.")
     @Story("Создание новости с невалидным заголовком.")
