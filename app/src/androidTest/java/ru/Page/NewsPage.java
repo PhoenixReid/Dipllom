@@ -26,7 +26,6 @@ import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
 
 public class NewsPage {
-    private View decorView;
     public void pointNews(){
         Allure.step("Проверяем наличие кнопки" + R.id.news_list_swipe_refresh);
         onView(withId(R.id.news_list_swipe_refresh))
@@ -79,7 +78,8 @@ public class NewsPage {
                 .perform(click());
     }
 
-    public void errorText(String textError){
+    public void errorText(String textError, View decorView){
+        Allure.step("Проверяем наличие текста : " + textError);
         onView(withText(textError))
                 .inRoot(withDecorView(Matchers.not(decorView)))// Here you use decorView
                 .check(matches(isDisplayed()));

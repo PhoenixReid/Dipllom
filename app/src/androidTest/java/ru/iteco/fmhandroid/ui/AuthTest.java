@@ -66,7 +66,7 @@ public class AuthTest {
 
         authPage.auth(AuthData.unLogin, AuthData.password);
 
-        newsPage.errorText(ErrorData.authError);
+        newsPage.errorText(ErrorData.authError, decorView);
 
         authPage.authUnSucess();
     }
