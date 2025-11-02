@@ -26,6 +26,8 @@ import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
 import ru.Page.AuthPage;
 import ru.Page.TopMenuPage;
+import ru.Data.ErrorData;
+import ru.Page.NewsPage;
 
 @LargeTest
 @RunWith(AllureAndroidJUnit4.class)
@@ -53,6 +55,8 @@ public class AuthTest {
     private View decorView;
     AuthPage authPage = new AuthPage();
     TopMenuPage topMenuPage = new TopMenuPage();
+    NewsPage newsPage = new NewsPage();
+
 
     @Test
     @DisplayName("Невалидный логин.")
@@ -61,9 +65,9 @@ public class AuthTest {
 
 
         authPage.auth(AuthData.unLogin, AuthData.password);
-        onView(withText("Что-то пошло не так. Попробуйте позднее."))
-                .inRoot(withDecorView(Matchers.not(decorView)))// Here you use decorView
-                .check(matches(isDisplayed()));
+
+        newsPage.errorText(ErrorData.authError);
+
         authPage.authUnSucess();
     }
 
@@ -73,6 +77,8 @@ public class AuthTest {
     public void authUnPasswordTest() {
 
         authPage.auth(AuthData.login, AuthData.unPassword);
+
+        newsPage.errorText(ErrorData.authError);
 
         authPage.authUnSucess();
     }
@@ -84,6 +90,8 @@ public class AuthTest {
 
         authPage.auth(AuthData.nullLogin, AuthData.password);
 
+        newsPage.errorText(ErrorData.authError);
+
         authPage.authUnSucess();
     }
 
@@ -93,6 +101,8 @@ public class AuthTest {
     public void authNullPasswordTest() {
 
         authPage.auth(AuthData.login, AuthData.nullPassword);
+
+        newsPage.errorText(ErrorData.authError);
 
         authPage.authUnSucess();
     }
@@ -104,6 +114,8 @@ public class AuthTest {
 
         authPage.auth(AuthData.spaseLogin, AuthData.password);
 
+        newsPage.errorText(ErrorData.authError);
+
         authPage.authUnSucess();
     }
 
@@ -113,6 +125,8 @@ public class AuthTest {
     public void authSpacePasswordTest() {
 
         authPage.auth(AuthData.login, AuthData.spasePassword);
+
+        newsPage.errorText(ErrorData.authError);
 
         authPage.authUnSucess();
     }

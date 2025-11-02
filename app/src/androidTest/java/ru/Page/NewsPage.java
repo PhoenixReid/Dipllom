@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -15,13 +16,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
+import android.view.View;
 import android.widget.TextView;
+
+import org.hamcrest.Matchers;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
 
 public class NewsPage {
+    private View decorView;
     public void pointNews(){
         Allure.step("Проверяем наличие кнопки" + R.id.news_list_swipe_refresh);
         onView(withId(R.id.news_list_swipe_refresh))
@@ -73,4 +78,12 @@ public class NewsPage {
         onView(withId(R.id.filter_news_material_button))
                 .perform(click());
     }
+
+    public void errorText(String textError){
+        onView(withText(textError))
+                .inRoot(withDecorView(Matchers.not(decorView)))// Here you use decorView
+                .check(matches(isDisplayed()));
+    }
+
+
 }
