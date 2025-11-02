@@ -78,7 +78,7 @@ public class AuthTest {
 
         authPage.auth(AuthData.login, AuthData.unPassword);
 
-        newsPage.errorText(ErrorData.authError);
+        newsPage.errorText(ErrorData.authError, decorView);
 
         authPage.authUnSucess();
     }
@@ -90,7 +90,7 @@ public class AuthTest {
 
         authPage.auth(AuthData.nullLogin, AuthData.password);
 
-        newsPage.errorText(ErrorData.authError);
+        newsPage.errorText(ErrorData.authNullError, decorView);
 
         authPage.authUnSucess();
     }
@@ -102,7 +102,7 @@ public class AuthTest {
 
         authPage.auth(AuthData.login, AuthData.nullPassword);
 
-        newsPage.errorText(ErrorData.authError);
+        newsPage.errorText(ErrorData.authNullError, decorView);
 
         authPage.authUnSucess();
     }
@@ -114,7 +114,7 @@ public class AuthTest {
 
         authPage.auth(AuthData.spaseLogin, AuthData.password);
 
-        newsPage.errorText(ErrorData.authError);
+        newsPage.errorText(ErrorData.authNullError, decorView);
 
         authPage.authUnSucess();
     }
@@ -126,7 +126,7 @@ public class AuthTest {
 
         authPage.auth(AuthData.login, AuthData.spasePassword);
 
-        newsPage.errorText(ErrorData.authError);
+        newsPage.errorText(ErrorData.authNullError, decorView);
 
         authPage.authUnSucess();
     }
