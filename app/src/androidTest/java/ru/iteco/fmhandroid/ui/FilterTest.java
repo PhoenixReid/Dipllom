@@ -63,11 +63,11 @@ public class FilterTest {
 
         newsPage.newsEditClick();
 
-        editNewsPage.deleteNews(NewsData.titleSalary);
-
-        editNewsPage.deleteNews(NewsData.titleSecondSalary);
-
-        editNewsPage.deleteNews(NewsData.titleNotice);
+//        editNewsPage.deleteNews(NewsData.titleSalary);
+//
+//        editNewsPage.deleteNews(NewsData.titleSecondSalary);
+//
+//        editNewsPage.deleteNews(NewsData.titleNotice);
 
         topMenuPage.exit();
     }

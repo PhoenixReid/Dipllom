@@ -19,6 +19,8 @@ import static org.hamcrest.Matchers.not;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.test.espresso.contrib.RecyclerViewActions;
+
 import org.hamcrest.Matchers;
 
 import io.qameta.allure.kotlin.Allure;
@@ -47,16 +49,34 @@ public class NewsPage {
                 .perform(click());
     }
 
-    public void textExistsDisplaye(String text){
-        Allure.step("Проверяем наличие текста " + text);
-        onView(withText(text)).check(matches(isDisplayed()));
-    }
 
     public void textExists(String text){
         Allure.step("Проверяем наличие текста " + text);
         onView(withText(text))
                 .perform(scrollTo())          // прокручиваем до элемента
                 .check(matches(isDisplayed())); // и проверяем, что он виден
+    }
+
+    public void textRecycler(String text){
+        Allure.step("Проверяем наличие текста (с прокруткой в RecyclerView): " + text);
+
+        // Сначала прокручиваем RecyclerView до элемента с нужным текстом
+        onView(withId(R.id.news_list_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(hasDescendant(withText(text))));
+
+        // Затем проверяем, что он отображается
+        onView(withText(text)).check(matches(isDisplayed()));
+    }
+
+    public void textRecyclerClick(String text){
+        Allure.step("Проверяем наличие текста (с прокруткой в RecyclerView): " + text);
+
+        // Сначала прокручиваем RecyclerView до элемента с нужным текстом
+        onView(withId(R.id.news_list_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(hasDescendant(withText(text))));
+
+        // Затем проверяем, что он отображается
+        onView(withText(text)).perform(click());
     }
 
 

@@ -4,26 +4,27 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
+
+import static ru.utils.ViewMatchersUtils.hasDrawable;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
-
-import java.util.Date;
-
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
 import ru.utils.waitDisplayed;
-
+import ru.utils.ViewMatchersUtils;
 public class AddEditNewsPage {
 
     public void category(String Category){
@@ -32,19 +33,15 @@ public class AddEditNewsPage {
         Allure.step("Нажимаем на поле" + R.id.news_item_category_text_auto_complete_text_view);
         onView(withId(R.id.news_item_category_text_auto_complete_text_view))
                 .perform(click());
-        Allure.step("Ждём подзагрузку категорий");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         Allure.step("Выбираем категорию " + Category);
         onView(withText(Category))
                 .inRoot(isPlatformPopup())
-                .check(matches(isDisplayed()))
                 .perform(click());
 
-
+        Allure.step("Закрываем клавиатуру");
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(closeSoftKeyboard());
 
     }
 
@@ -114,12 +111,12 @@ public class AddEditNewsPage {
 
         new AddEditNewsPage().clickSaveButton();
 
-        new NewsPage().textExists(title);
     }
 
     public void cancelClick(){
         onView(withId(R.id.cancel_button))
                 .perform(click());
+
 
         onView(withText("OK"))
                 .inRoot(isDialog())
@@ -127,4 +124,36 @@ public class AddEditNewsPage {
 
         onView(isRoot()).perform(new waitDisplayed(R.id.delete_news_item_image_view, 5000));
     }
+
+    public void checkCategoryIcon(int idIcon, String title) {
+        Allure.step("Проверяем, что новость " + title + "имеет иконку " + idIcon);
+
+        // Прокручиваем RecyclerView до карточки с нужным заголовком
+        onView(withId(R.id.news_list_recycler_view))
+                .perform(RecyclerViewActions.scrollTo(hasDescendant(withText(title))));
+
+        // Ищем ImageView иконки внутри той же карточки
+        onView(allOf(
+                withId(R.id.category_icon_image_view),
+                withParent(hasDescendant(withText(title)))
+        )).check(matches(hasDrawable(idIcon)));
+    }
+
+    public void nullCategory(){
+        Allure.step("Проверяем наличие поля" + R.id.news_item_category_text_auto_complete_text_view);
+        onView(isRoot()).perform(new waitDisplayed(R.id.news_item_category_text_auto_complete_text_view, 5000));
+        Allure.step("Нажимаем на поле" + R.id.news_item_category_text_auto_complete_text_view);
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(click());
+
+        Allure.step("Очищаем категорию ");
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(replaceText(""));
+
+        Allure.step("Закрываем клавиатуру");
+        onView(withId(R.id.news_item_category_text_auto_complete_text_view))
+                .perform(closeSoftKeyboard());
+
+    }
+
 }

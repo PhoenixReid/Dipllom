@@ -1,7 +1,9 @@
 package ru.iteco.fmhandroid.ui;
 
 import android.icu.text.SimpleDateFormat;
+import android.view.View;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.LargeTest;
 
@@ -21,6 +23,7 @@ import io.qameta.allure.kotlin.Epic;
 import io.qameta.allure.kotlin.Story;
 import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
+import ru.Data.ErrorData;
 import ru.Data.NewsData;
 import ru.Data.TextButtonData;
 import ru.Page.AddEditNewsPage;
@@ -36,14 +39,18 @@ import ru.Page.TopMenuPage;
 @RunWith(AllureAndroidJUnit4.class)
 public class AddNewsTest {
     @Rule
-    public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(AppActivity.class);
+    public ActivityScenarioRule<AppActivity> activityRule = new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
     public void login() {
+        activityRule.getScenario().onActivity(new ActivityScenario.ActivityAction<AppActivity>() {
+            @Override
+            public void perform(AppActivity activity) { // ← вот здесь!
+                decorView = activity.getWindow().getDecorView();
+            }
+        });
         if (authPage.checkAuth()) {
 
-            ;
         } else {
             authPage.auth(AuthData.login, AuthData.password);
         }
@@ -55,13 +62,13 @@ public class AddNewsTest {
         editNewsPage.addNewsClick();
     }
 
-//    @After
-//    public void exit() {
-//
-//        topMenuPage.exit();
-//    }
+    @After
+    public void exit() {
 
+        topMenuPage.exit();
+    }
 
+    private View decorView;
     TopMenuPage topMenuPage = new TopMenuPage();
     AuthPage authPage = new AuthPage();
     NewsPage newsPage = new NewsPage();
@@ -75,13 +82,13 @@ public class AddNewsTest {
 
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.descriptionSalary, NewsData.today);
 
-        newsPage.textExists(NewsData.titleSalary);
+        newsPage.textRecycler(NewsData.titleSalary);
 
-        newsPage.clickNews(NewsData.titleSalary);
+        newsPage.textRecyclerClick(NewsData.titleSalary);
 
-        newsPage.textExists(NewsData.descriptionSalary);
+        newsPage.textRecycler(NewsData.descriptionSalary);
 
-        newsPage.textExists(NewsData.todayDate);
+        newsPage.textRecycler(NewsData.todayDate);
 
 //        editNewsPage.deleteNews(NewsData.titleSalary);
     }
@@ -92,7 +99,7 @@ public class AddNewsTest {
 
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.nullTitle, NewsData.descriptionSalary, NewsData.today);
 
-        newsPage.textExists("Сохранить");
+        newsPage.errorText(ErrorData.addNewsError, decorView);
 
         addEditNewsPage.cancelClick();
     }
@@ -104,7 +111,7 @@ public class AddNewsTest {
 
         addEditNewsPage.addNews(NewsData.categorySalary, NewsData.titleSalary, NewsData.nullDescription, NewsData.today);
 
-        newsPage.textExists("Сохранить");
+        newsPage.errorText(ErrorData.addNewsError, decorView);
 
         addEditNewsPage.cancelClick();
     }
@@ -121,7 +128,7 @@ public class AddNewsTest {
 
         addEditNewsPage.clickSaveButton();
 
-        newsPage.textExists("Сохранить");
+        newsPage.errorText(ErrorData.addNewsError, decorView);
 
         addEditNewsPage.cancelClick();
     }

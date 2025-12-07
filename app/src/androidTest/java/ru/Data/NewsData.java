@@ -6,7 +6,12 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import ru.iteco.fmhandroid.R;
+
 public class NewsData {
+    public static final int idCategorySalary = R.drawable.icon_salary;
+    public static final int idCategorySParty = R.drawable.icon_birthday;
+
     public static final String categorySalary = "Зарплата";
     public static final String categoryNotice = "Объявление";
     public static final String categoryParty = "Праздник";
@@ -22,14 +27,14 @@ public class NewsData {
     public static  final  String nullDescription = "";
 
 
-    public static final String today = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-    public  static final String oneDayPlThree = new SimpleDateFormat("dd", Locale.getDefault())
+    public static final String today = new SimpleDateFormat("d", Locale.getDefault()).format(new Date());
+    public  static final String oneDayPlThree = new SimpleDateFormat("d", Locale.getDefault())
             .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(3)));
-    public static final String theDayAfterTomorrow = new SimpleDateFormat("dd", Locale.getDefault())
+    public static final String theDayAfterTomorrow = new SimpleDateFormat("d", Locale.getDefault())
             .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2)));
-    public static final String yesterday = new SimpleDateFormat("dd", Locale.getDefault())
+    public static final String yesterday = new SimpleDateFormat("d", Locale.getDefault())
             .format(new Date(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1)));
-    public static final String tomorrowDay = new SimpleDateFormat("dd", Locale.getDefault())
+    public static final String tomorrowDay = new SimpleDateFormat("d", Locale.getDefault())
             .format(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1)));
     public static final String todayDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
     public static final String tomorrowData = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())

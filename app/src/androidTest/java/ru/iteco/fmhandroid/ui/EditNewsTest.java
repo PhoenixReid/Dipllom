@@ -4,6 +4,9 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
+import android.view.View;
+
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.After;
@@ -17,6 +20,7 @@ import io.qameta.allure.kotlin.Epic;
 import io.qameta.allure.kotlin.Story;
 import io.qameta.allure.kotlin.junit4.DisplayName;
 import ru.Data.AuthData;
+import ru.Data.ErrorData;
 import ru.Data.NewsData;
 import ru.Data.TextButtonData;
 import ru.Page.AddEditNewsPage;
@@ -31,11 +35,16 @@ import ru.iteco.fmhandroid.R;
 @RunWith(AllureAndroidJUnit4.class)
 public class EditNewsTest {
     @Rule
-    public ActivityScenarioRule<AppActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(AppActivity.class);
+    public ActivityScenarioRule<AppActivity> activityRule = new ActivityScenarioRule<>(AppActivity.class);
 
     @Before
     public void login() {
+        activityRule.getScenario().onActivity(new ActivityScenario.ActivityAction<AppActivity>() {
+            @Override
+            public void perform(AppActivity activity) { // ← вот здесь!
+                decorView = activity.getWindow().getDecorView();
+            }
+        });
         if (authPage.checkAuth()) {
 
             ;
@@ -51,16 +60,20 @@ public class EditNewsTest {
 
         addEditNewsPage.addNews(NewsData.categorySalary, title, NewsData.descriptionSalary, NewsData.today);
 
+        newsPage.textRecycler(title);
+
+
         editNewsPage.editNewsClick(title);
     }
 
     @After
     public void exit() {
-        editNewsPage.deleteNews(title);
+//        editNewsPage.deleteNews(title);
 
         topMenuPage.exit();
     }
 
+    private View decorView;
     TopMenuPage topMenuPage = new TopMenuPage();
     AuthPage authPage = new AuthPage();
     NewsPage newsPage = new NewsPage();
@@ -74,20 +87,20 @@ public class EditNewsTest {
     @Story("Изменение на валидные данные")
     @DisplayName("ИЗменение категории")
     public void editCategoryTest(){
+        addEditNewsPage.nullCategory();
+
         addEditNewsPage.category(NewsData.categoryParty);
 
-        onView(withId(R.id.save_button))
-                .perform(scrollTo());
+       addEditNewsPage.clickSaveButton();
 
-        addEditNewsPage.clickSaveButton();
+       newsPage.textRecycler(title);
 
-        newsPage.filterClick();
+        newsPage.clickNews(NewsData.titleSalary);
 
-        filterPage.filterCategory(NewsData.categoryParty);
+        newsPage.textExists(NewsData.descriptionSalary);
 
-        filterPage.clickFilter();
+        newsPage.textExists(NewsData.todayDate);
 
-        newsPage.textExists(title);
     }
 
     @Test
@@ -99,7 +112,7 @@ public class EditNewsTest {
 
         addEditNewsPage.clickSaveButton();
 
-        newsPage.textExists(title);
+        newsPage.textRecycler(title);
 
     }
 
@@ -111,9 +124,10 @@ public class EditNewsTest {
 
         addEditNewsPage.clickSaveButton();
 
-        newsPage.textExists("Сохранить");
+        newsPage.errorText(ErrorData.addNewsError, decorView);
 
         addEditNewsPage.cancelClick();
+
 
     }
 
@@ -127,7 +141,7 @@ public class EditNewsTest {
 
         newsPage.clickNews(title);
 
-        newsPage.textExists(NewsData.descriptionSecondSalary);
+        newsPage.textRecycler(NewsData.descriptionSecondSalary);
 
     }
 
@@ -139,7 +153,7 @@ public class EditNewsTest {
 
         addEditNewsPage.clickSaveButton();
 
-        newsPage.textExists("Сохранить");
+        newsPage.errorText(ErrorData.addNewsError, decorView);
 
         addEditNewsPage.cancelClick();
     }
@@ -152,9 +166,9 @@ public class EditNewsTest {
 
         addEditNewsPage.clickSaveButton();
 
-        newsPage.clickNews(title);
+        newsPage.textRecyclerClick(title);
 
-        newsPage.textExists(NewsData.tomorrowData);
+        newsPage.textRecycler(NewsData.tomorrowData);
     }
 
     @Test
